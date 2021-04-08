@@ -1,4 +1,7 @@
 package com.travel.service.tour;
 
-public interface ITourService {
+import com.travel.model.tour.Tour;
+import com.travel.service.IGeneral;
+
+public interface ITourService extends IGeneral<Tour> {
 }
