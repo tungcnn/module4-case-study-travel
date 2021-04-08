@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="add-tour">
+    <table>
+        <tr>
+            <td>Tour:</td>
+            <td><input type="text" id="tour" placeholder="Tour"></td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" id="description" placeholder="Description"></td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td><input type="text" id="price" placeholder="Price"></td>
+        </tr>
+        <tr>
+            <td>Time:</td>
+            <td><input type="text" id="time" placeholder="Time"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Add" onclick="addNewSmartPhone()"></td>
+        </tr>
+    </table>
+</form>
+<h1>List Tour</h1>
+<table id="smartphoneList">
+    <tr>
+        <td>Tour</td>
+        <td>Description</td>
+        <td>Price</td>
+        <td>Time</td>
+    </tr>
+    <th:block th:each="tour: ${tours}">
+        <tr>
+            <td th:text="${tour.name}"></td>
+            <td th:text="${tour.description}"></td>
+            <td th:text="${tour.price}"></td>
+            <td th:text="${tour.time}"></td>
+            <td><a class="deleteSmartphone" th:href="${tour.id}">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
