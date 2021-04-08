@@ -2,6 +2,9 @@ package com.travel.model.flight;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,9 +14,9 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDateTime date;
-    private LocalDateTime startTime;
-    private LocalDateTime arriveTime;
+    private Date date;
+    private Time startTime;
+    private Time arriveTime;
     private String fromLocation;
     private String toLocation;
     private double price;

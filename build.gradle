@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     //Spring MVC
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    compileOnly group: 'javax.servlet', name: 'servlet-api', version: '2.3'
     compile group: 'org.springframework', name: 'spring-core', version: '4.3.17.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.17.RELEASE'
     compile group: 'org.springframework', name: 'spring-beans', version: '4.3.17.RELEASE'
@@ -40,9 +40,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
     testCompileOnly 'org.projectlombok:lombok:1.18.16'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
-    //Ajax
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
 }
 
 test {

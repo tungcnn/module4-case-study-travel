@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel='stylesheet' href='/webjars/bootstrap/4.6.0-1/css/bootstrap.min.css'>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function addFlight() {
+            let date = $('#date').val();
+            let startTime = $('#startTime').val() + ":00";
+            let arriveTime = $('#arriveTime').val() + ":00";
+            let fromLocation = $('#fromLocation').val();
+            let toLocation = $('#toLocation').val();
+            let price = $('#price').val();
+            let flightBrand = $('#flightBrand').val();
+            let newFlight = {
+                date: date,
+                startTime: startTime,
+                arriveTime: arriveTime,
+                fromLocation: fromLocation,
+                toLocation: toLocation,
+                price: price,
+                flightBrand: {
+                    id: flightBrand
+                }
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(newFlight),
+                url: "/flights",
+                success: successHandler
+            });
+            event.preventDefault();
+        }
+
+        function successHandler() {
+            $.ajax({
+                type: "GET",
+                url: "/flights",
+                success: function (data) {
+                    let content = "";
+                    for (let i = 0; i < data.length; i++) {
+                        content += getFlight(data[i]);
+                    }
+                    document.getElementById("flightList").innerHTML = content;
+                    document.getElementById("date").value = "";
+                    document.getElementById("startTime").value = "";
+                    document.getElementById("arriveTime").value = "";
+                    document.getElementById("fromLocation").value = "";
+                    document.getElementById("toLocation").value = "";
+                    document.getElementById("price").value = "";
+                    document.getElementById("flightBrand").value = 1;
+                }
+            })
+        }
+
+        function getFlight(flight) {
+            let date = new Date(flight.date);
+            let month = date.getMonth() + 1;
+            let date2 = date.getDate();
+            if (date2 < 10) {
+                date2 = "0" + date2;
+            }
+            if (month < 10) {
+                month = "0" + month;
+            }
+            date = date.getFullYear() + "-" + month + "-" + date2;
+            return `<tr>
+                        <td>${flight.id}</td>
+                        <td>${date}</td>
+                        <td>${flight.startTime}</td>
+                        <td>${flight.arriveTime}</td>
+                        <td>${flight.fromLocation}</td>
+                        <td>${flight.toLocation}</td>
+                        <td>${flight.price}</td>
+                        <td>${flight.flightBrand.name}</td>
+                        <td><a href="/flights/edit/${flight.id}">Edit</a></td>
+                        <td><a href="/flights/delete/${flight.id}">Delete</a></td>
+                    </tr>`
+        }
+
+        $(function () {
+            var deleteLink = $("a:contains('Delete')");
+            $(deleteLink).click(function (event) {
+                $.ajax({
+                    url: $(event.target).attr("href"),
+                    type: "DELETE",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function () {
+                        var rowToDelete = $(event.target).closest("tr");
+                        rowToDelete.remove();
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td>Start Date</td>
+            <td><input type="date" id="date"></td>
+        </tr>
+        <tr>
+            <td>Start Time</td>
+            <td><input type="time" id="startTime" placeholder="00:00:00"></td>
+        </tr>
+        <tr>
+            <td>Arrival Time</td>
+            <td><input type="time" id="arriveTime"></td>
+        </tr>
+        <tr>
+            <td>From Location</td>
+            <td><input type="text" id="fromLocation"></td>
+        </tr>
+        <tr>
+            <td>To Location</td>
+            <td><input type="text" id="toLocation"></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><input type="text" id="price"></td>
+        </tr>
+        <tr>
+            <td>Flight Brand</td>
+            <td>
+                <select id="flightBrand">
+                    <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <button type="submit" onclick="addFlight()">Add</button>
+</form>
+<br>
+<table class="table table-hover table-dark">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>Arrive Time</th>
+        <th>From Location</th>
+        <th>To Location</th>
+        <th>Price</th>
+        <th>Brand</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody id="flightList">
+    <tr th:each="f:${flights}">
+        <td th:text="${f.id}"></td>
+        <td th:text="${f.date}"></td>
+        <td th:text="${f.startTime}"></td>
+        <td th:text="${f.arriveTime}"></td>
+        <td th:text="${f.fromLocation}"></td>
+        <td th:text="${f.toLocation}"></td>
+        <td th:text="${f.price}"></td>
+        <td th:text="${f.flightBrand.name}"></td>
+        <td><a th:href="@{/flights/edit/__${f.id}__}">Edit</a></td>
+        <td><a th:href="@{/flights/delete/__${f.id}__}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

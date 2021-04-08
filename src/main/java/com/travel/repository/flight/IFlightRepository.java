@@ -1,4 +1,7 @@
 package com.travel.repository.flight;
 
-public interface IFlightRepository {
+import com.travel.model.flight.Flight;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface IFlightRepository extends PagingAndSortingRepository<Flight, Long> {
 }
