@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Hotel Management</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function addNewRoom() {
+            let name = $(`#name`).val();
+            let type = $(`#type`).val();
+            let price = $(`#price`).val();
+            let slot = $(`#slot`).val();
+            let available = $(`#available`).val();
+            let detail = $(`#detail`).val();
+            let newRoom = {
+                name: name,
+                type: type,
+                price: price,
+                slot: slot,
+                available: available,
+                detail: detail
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(newRoom),
+
+                url: "/rooms",
+
+                success: successHandle
+            });
+            event.preventDefault();
+        }
+
+        function successHandle() {
+            $.ajax({
+                type: "GET",
+
+                url: "/rooms",
+
+                success: function (data) {
+                    let room = '<tr>\n<td>Name</td>\n' +
+                        '<td>Type</td>\n' +
+                        '<td>Price</td>\n' +
+                        '<td>Slot</td>\n' +
+                        '<td>Status</td>\n' +
+                        '<td>Detail</td>\n</tr>\n'
+                    for (let i = 0; i < data.length; i++) {
+                        room += getNewRoom(data[i])
+                    }
+                    document.getElementById('rooms').innerHTML = room;
+                }
+            });
+        }
+
+        function getNewRoom(newRoom) {
+            return `<tr><td>${newRoom.name}</td><td>${newRoom.type}</td><td>${newRoom.price}</td><td>${newRoom.slot}</td><td>${newRoom.detail}</td>` +
+                `<td><a class="editRoom" href="${newRoom.id}">Edit</a></td>` +
+                `<td><a class="deleteRoom" href="${newRoom.id}">Delete</a></td></tr>`;
+        }
+
+    </script>
+</head>
+<body>
+<div>
+    <form id="add-room">
+        <table>
+            <tr>
+                <td>Name Room:</td>
+                <td>
+                    <input type="text" id="name" placeholder="Name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Type Room:</td>
+                <td>
+                    <input type="text" id="type" placeholder="Type Room"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Price Room:</td>
+                <td>
+                    <input type="text" id="price" placeholder="Price Room"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Slot:</td>
+                <td>
+                    <input type="text" id="slot" placeholder="Number of people"/>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td>Status:</td>
+                <td>
+                    <input type="text" id="available" placeholder="On/Off"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Details:</td>
+                <td>
+                    <input type="text" id="detail" placeholder="Description"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div>
+    <h1>Room List</h1>
+    <table id="rooms">
+        <thread>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Slot</th>
+                <th>Details</th>
+            </tr>
+        </thread>
+        <tbody>
+        <th:block th:each="room : ${rooms}">
+            <tr>
+                <td th:text="${room.name}"></td>
+                <td th:text="${room.type}"></td>
+                <td th:text="${room.price}"></td>
+                <td th:text="${room.slot}"></td>
+                <td th:text="${room.detail}"></td>
+                <td>
+                    <a class="btn btn-primary editRoom" th:href="${room.id}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger deleteRoom" th:href="${room.id}">Delete</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
