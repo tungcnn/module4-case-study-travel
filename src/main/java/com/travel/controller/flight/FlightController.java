@@ -28,22 +28,21 @@ public class FlightController {
         return flightService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/ajax")
     public ResponseEntity<Iterable<Flight>> getAllFlightsAjax() {
-        Iterable<Flight> flights = flightService.findAll();
-        return new ResponseEntity<>(flights, HttpStatus.OK);
+        return new ResponseEntity<>(flightService.findAll(), HttpStatus.OK);
     }
-    @GetMapping("/list")
+    @GetMapping
     public ModelAndView showFlightList() {
         return new ModelAndView("/flight/list-flight", "flight", new Flight());
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addFlight(@RequestBody Flight flight) {
         flightService.save(flight);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
-    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteSmartphone(@PathVariable Integer id){
         flightService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);

@@ -41,7 +41,7 @@
         function successHandler() {
             $.ajax({
                 type: "GET",
-                url: "/flights",
+                url: "/flights/ajax",
                 success: function (data) {
                     let content = "";
                     for (let i = 0; i < data.length; i++) {
@@ -80,28 +80,20 @@
                         <td>${flight.price}</td>
                         <td>${flight.flightBrand.name}</td>
                         <td><a href="/flights/edit/${flight.id}">Edit</a></td>
-                        <td><a href="/flights/delete/${flight.id}">Delete</a></td>
+                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="deleteFlight(id)">Delete</a></td>
                     </tr>`
         }
 
-        $(function () {
-            var deleteLink = $("a:contains('Delete')");
-            $(deleteLink).click(function (event) {
-                $.ajax({
-                    url: $(event.target).attr("href"),
-                    type: "DELETE",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    success: function () {
-                        var rowToDelete = $(event.target).closest("tr");
-                        rowToDelete.remove();
-                    }
-                });
-                event.preventDefault();
+        function deleteFlight(id) {
+            $.ajax({
+                url: `/flights/${id}`,
+                type: "DELETE",
+                success: function () {
+                    document.getElementById(id).parentElement.parentElement.remove();
+                }
             });
-        });
+            event.preventDefault();
+        }
     </script>
 </head>
 <body>
@@ -168,8 +160,8 @@
         <td th:text="${f.toLocation}"></td>
         <td th:text="${f.price}"></td>
         <td th:text="${f.flightBrand.name}"></td>
-        <td><a th:href="@{/flights/edit/__${f.id}__}">Edit</a></td>
-        <td><a th:href="@{/flights/delete/__${f.id}__}">Delete</a></td>
+        <td><a th:href="@{/flights/__${f.id}__}">Edit</a></td>
+        <td><a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="deleteFlight(id)">Delete</a></td>
     </tr>
     </tbody>
 </table>
