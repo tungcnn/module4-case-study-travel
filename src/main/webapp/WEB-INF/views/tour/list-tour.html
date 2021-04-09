@@ -47,6 +47,7 @@
                 }
             })
         }
+
         function getTour(tour) {
             return `<tr>
                         <td>${tour.name}</td>
@@ -54,9 +55,20 @@
                         <td>${tour.price}</td>
                         <td>${tour.time}</td>
                         <td>${tour.location.name}</td>
-                        <td><a href="/tour/edit/${tour.id}">Edit</a></td>
-                        <td><a href="/tour/delete/${tour.id}">Delete</a></td>
+                        <td><a href="/edit/${tour.id}">Edit</a></td>
+                        <td><a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="deleteTour(id)">Delete</a></td>
                     </tr>`
+        }
+
+        function deleteTour(id) {
+            $.ajax({
+                url: `tours/${id}`,
+                type: "DELETE",
+                success: function () {
+                    document.getElementById(id).parentElement.parentElement.remove()
+                }
+            });
+            event.preventDefault();
         }
     </script>
 </head>
@@ -112,7 +124,7 @@
             <td th:text="${tour.time}"></td>
             <td th:text="${tour.location.name}"></td>
             <td>
-                <a class="" th:href="${tour.id}">Delete</a>
+                <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="deleteTour(id)">Delete</a>
                 <a class="" th:href="${tour.id}">Edit</a>
             </td>
         </tr>

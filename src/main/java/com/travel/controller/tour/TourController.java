@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("tours")
 public class TourController {
@@ -42,5 +44,11 @@ public class TourController {
         ModelAndView modelAndView = new ModelAndView("tour/list-tour");
         modelAndView.addObject("tours", showTours());
         return modelAndView;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
+        tourService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
