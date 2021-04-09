@@ -132,8 +132,12 @@
                 date: date,
                 startTime: startTime,
                 arriveTime: arriveTime,
-                fromLocation: fromLocation,
-                toLocation: toLocation,
+                fromLocation: {
+                    id: fromLocation,
+                },
+                toLocation: {
+                    id: toLocation,
+                },
                 price: price,
                 flightBrand: {
                     id: flightBrand
@@ -189,12 +193,12 @@
                         <td>${date}</td>
                         <td>${flight.startTime}</td>
                         <td>${flight.arriveTime}</td>
-                        <td>${flight.fromLocation}</td>
-                        <td>${flight.toLocation}</td>
+                        <td>${flight.fromLocation.name}</td>
+                        <td>${flight.toLocation.name}</td>
                         <td>${flight.price}</td>
                         <td>${flight.flightBrand.name}</td>
-                        <td><a href="/flights/edit/${flight.id}">Edit</a></td>
-                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="deleteFlight(id)">Delete</a></td>
+                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showEditModal(id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a></td>
+                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="deleteFlight(id)" class="btn btn-danger">Delete</a></td>
                     </tr>`
         }
 
@@ -208,9 +212,182 @@
             });
             event.preventDefault();
         }
+
+        function showEditModal(id) {
+            $.ajax({
+                type: "GET",
+                url: `/flights/${id}`,
+                success: function (data) {
+                    let date = new Date(data.date);
+                    let month = date.getMonth() + 1;
+                    let date2 = date.getDate();
+                    if (date2 < 10) {
+                        date2 = "0" + date2;
+                    }
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    date = date.getFullYear() + "-" + month + "-" + date2;
+                    document.getElementById("idEdit").value = data.id;
+                    document.getElementById("dateEdit").value = date;
+                    document.getElementById("startTimeEdit").value = data.startTime;
+                    document.getElementById("arriveTimeEdit").value = data.arriveTime;
+                    document.getElementById("fromLocationEdit").value = data.fromLocation.id;
+                    document.getElementById("toLocationEdit").value = data.toLocation.id;
+                    document.getElementById("priceEdit").value = data.price;
+                    document.getElementById("flightBrandEdit").value = data.flightBrand.id;
+                }
+            })
+        }
+
+        function editFlight() {
+            let id = $('#idEdit').val();
+            let date = $('#dateEdit').val();
+            let startTime = $('#startTimeEdit').val();
+            let arriveTime = $('#arriveTimeEdit').val();
+            let fromLocation = $('#fromLocationEdit').val();
+            let toLocation = $('#toLocationEdit').val();
+            let price = $('#priceEdit').val();
+            let flightBrand = $('#flightBrandEdit').val();
+            let newFlight = {
+                id: id,
+                date: date,
+                startTime: startTime,
+                arriveTime: arriveTime,
+                fromLocation: {
+                    id: fromLocation,
+                },
+                toLocation: {
+                    id: toLocation,
+                },
+                price: price,
+                flightBrand: {
+                    id: flightBrand
+                }
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "PUT",
+                data: JSON.stringify(newFlight),
+                url: `/flights`,
+                success: successHandler
+            });
+            event.preventDefault();
+        }
     </script>
 </head>
 <body>
+<!---------------------------------------------create modal------------------------------------------------------------------->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New flight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="time" id="startTime" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Arrival Time</label>
+                        <input type="time" id="arriveTime" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>From Location</label>
+                        <select id="fromLocation" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}" th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>To Location</label>
+                        <select id="toLocation" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}" th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Flight Brands</label>
+                        <select id="flightBrand" class="form-control">
+                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="addFlight()">Add</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------------------edit modal------------------------------------------------------------------->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">edit flight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" id="idEdit" hidden>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="dateEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Start Time</label>
+                        <input type="time" id="startTimeEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Arrival Time</label>
+                        <input type="time" id="arriveTimeEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>From Location</label>
+                        <select id="fromLocationEdit" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}" th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>To Location</label>
+                        <select id="toLocationEdit" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}" th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="priceEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Flight Brands</label>
+                        <select id="flightBrandEdit" class="form-control">
+                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="editFlight()" data-dismiss="modal">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!---------------------------------------------navbar------------------------------------------------------------------->
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/flights">Travel Kalo</a>
@@ -270,43 +447,7 @@
         <!-----------------------------------------------------------table------------------------------------------------------->
         <div class="col-md-9">
             <div class="row">
-                <form>
-                    <table>
-                        <tr>
-                            <td>Start Date</td>
-                            <td><input type="date" id="date"></td>
-                        </tr>
-                        <tr>
-                            <td>Start Time</td>
-                            <td><input type="time" id="startTime" placeholder="00:00:00"></td>
-                        </tr>
-                        <tr>
-                            <td>Arrival Time</td>
-                            <td><input type="time" id="arriveTime"></td>
-                        </tr>
-                        <tr>
-                            <td>From Location</td>
-                            <td><input type="text" id="fromLocation"></td>
-                        </tr>
-                        <tr>
-                            <td>To Location</td>
-                            <td><input type="text" id="toLocation"></td>
-                        </tr>
-                        <tr>
-                            <td>Price</td>
-                            <td><input type="text" id="price"></td>
-                        </tr>
-                        <tr>
-                            <td>Flight Brand</td>
-                            <td>
-                                <select id="flightBrand">
-                                    <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                    <button type="submit" onclick="addFlight()">Add</button>
-                </form>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create new flight</button>
             </div>
             <div class="row">
                 <table class="table table-hover table-dark">
@@ -330,12 +471,12 @@
                         <td th:text="${f.date}"></td>
                         <td th:text="${f.startTime}"></td>
                         <td th:text="${f.arriveTime}"></td>
-                        <td th:text="${f.fromLocation}"></td>
-                        <td th:text="${f.toLocation}"></td>
+                        <td th:text="${f.fromLocation.name}"></td>
+                        <td th:text="${f.toLocation.name}"></td>
                         <td th:text="${f.price}"></td>
                         <td th:text="${f.flightBrand.name}"></td>
-                        <td><a th:href="@{/flights/__${f.id}__}">Edit</a></td>
-                        <td><a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="deleteFlight(id)">Delete</a>
+                        <td><a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="showEditModal(id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a></td>
+                        <td><a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="deleteFlight(id)" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     </tbody>

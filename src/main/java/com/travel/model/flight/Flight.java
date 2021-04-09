@@ -17,8 +17,10 @@ public class Flight {
     private Date date;
     private Time startTime;
     private Time arriveTime;
-    private String fromLocation;
-    private String toLocation;
+    @ManyToOne
+    private FlightLocation fromLocation;
+    @ManyToOne
+    private FlightLocation toLocation;
     private double price;
     @ManyToOne
     private FlightBrand flightBrand;
