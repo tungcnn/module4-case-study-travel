@@ -486,7 +486,12 @@
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-dark" placeholder="search" aria-label="search" aria-describedby="button-addon">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
+        </div>
+    </div>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="#">Sign out</a>
