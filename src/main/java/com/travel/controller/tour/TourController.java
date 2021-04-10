@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("tours")
 public class TourController {
@@ -28,7 +26,7 @@ public class TourController {
     }
 
 
-    @PostMapping(value = "save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createTour(@RequestBody Tour tour) {
         tourService.save(tour);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
@@ -51,4 +49,16 @@ public class TourController {
         tourService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editTour(@RequestBody Tour tour) {
+        tourService.save(tour);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Tour> findTourId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(tourService.findById(id), HttpStatus.OK);
+    }
+
 }
