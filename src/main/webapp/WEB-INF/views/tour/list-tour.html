@@ -59,19 +59,31 @@
                         <td>${tour.time}</td>
                         <td>${tour.location.name}</td>
                         <td>
-                        <a id="${tour.id}" href="/tour/${tour.id}" onclick="deleteTour(id)" class="btn btn-danger">Delete</a>
+                        <a id="${tour.id}" href="/tour/${tour.id}" onclick="showDelete(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteTour">Delete</a>
                         <a id="${tour.id}" href="/tour/${tour.id}" onclick="ShowEditTour(id)"class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
                    data-whatever="@getbootstrap">Edit</a>
                         </td>
                     </tr>`
         }
 
-        function deleteTour(id) {
+        function showDelete(id) {
             $.ajax({
-                url: `tours/${id}`,
+                url: `/tours/${id}`,
+                type: "GET",
+                success: function (data) {
+                    document.getElementById("iddelete").value = data.id;
+                    document.getElementById("namedelete").value = data.name;
+                }
+            });
+        }
+
+        function deleteTour() {
+            let iddelte = $('#iddelete').val()
+            $.ajax({
+                url: `tours/${iddelte}`,
                 type: "DELETE",
                 success: function () {
-                    document.getElementById(id).parentElement.parentElement.remove()
+                    document.getElementById(iddelte).parentElement.parentElement.remove()
                 }
             });
             event.preventDefault();
@@ -105,7 +117,7 @@
                 description: descriptions,
                 price: prices,
                 time: times,
-                location: {id:locations},
+                location: {id: locations},
             };
             $.ajax({
                 headers: {
@@ -173,7 +185,8 @@
             <td th:text="${tour.time}"></td>
             <td th:text="${tour.location.name}"></td>
             <td>
-                <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="deleteTour(id)" class="btn btn-danger">Delete</a>
+                <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="showDelete(id)" class="btn btn-danger"
+                   data-toggle="modal" data-target="#deleteTour">Delete</a>
                 <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="ShowEditTour(id)"
                    class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
                    data-whatever="@getbootstrap">Edit</a>
@@ -184,7 +197,7 @@
 </table>
 
 
-<!-----------------------------------------------Modal------------------------------------------------------------>
+<!-----------------------------------------------Modal Show Edit------------------------------------------------------------>
 <div class="modal fade" id="ShowEditTour" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -229,5 +242,30 @@
     </div>
 </div>
 
+<!-- Modal delete -->
+<div class="modal fade" id="deleteTour" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="number" id="iddelete" hidden>
+            <div class="form-group">
+            </div>
+            <div class="modal-body">
+                <input type="text" disabled id="namedelete">
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteTour()">Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
