@@ -12,11 +12,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private IUserService userService;
 
     @Autowired
-    private CustomSuccessHandler loginSuccessHandler;
+    private CustomSuccessHandler customSuccessHandler;
 
     //lay du lieu user tu trong DB
     @Override
@@ -39,7 +40,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .formLogin().successHandler(loginSuccessHandler)
+                .formLogin().successHandler(customSuccessHandler)
                 .and()
                 .formLogin().loginPage("/login")
                 .and()

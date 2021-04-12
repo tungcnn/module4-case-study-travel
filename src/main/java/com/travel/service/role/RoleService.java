@@ -22,7 +22,7 @@ public class RoleService implements IRoleService {
 
     @Override
     public AppRole findById(long id) {
-        return roleRepository.findOne(id);
+        return roleRepository.findById(id).get();
     }
 
     @Override
@@ -32,6 +32,6 @@ public class RoleService implements IRoleService {
 
     @Override
     public void delete(long id) {
-        roleRepository.delete(id);
+        roleRepository.deleteById(id);
     }
 }
