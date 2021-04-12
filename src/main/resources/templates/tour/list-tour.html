@@ -5,9 +5,57 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <title>List</title>
     <script type="text/javascript">
+
+        $().ready(function () {
+            $("#add-fromTour").validate({
+                onfocusout: true,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                        maxlength: 15
+                    },
+                    "description": {
+                        required: true,
+                        maxlength: 30
+                    },
+                    "price": {
+                        required: true,
+                        maxlength: 7,
+                        min: 0,
+                        number: true
+                    },
+                    "time": {
+                        required: true,
+                        maxlength: 10
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: " Không được để trống",
+                        maxlength: " nhập tối đa 15 ký tự"
+                    },
+                    "description": {
+                        required: " Không được để trống",
+                        maxlength: " Nhập Tối đa 30 ký tự"
+                    },
+                    "price": {
+                        required:" Không được để trống",
+                        number: " tiền phải là số ",
+                        min: "Số Tiền Phải Lớn Hơn Hoặc bằng 0"
+                    },
+                    "time": {
+                        required: "Không Được để Trống ",
+                        maxlength: "Nhập Tối đa 10 Ký tự"
+                    }
+                }
+            });
+        });
+
         function addTour() {
             let name = $('#name').val();
             let description = $('#description').val();
@@ -72,7 +120,7 @@
                 type: "GET",
                 success: function (data) {
                     document.getElementById("iddelete").value = data.id;
-                    document.getElementById("namedelete").value = data.name;
+                    document.getElementById("namedelete").innerText = data.name;
                 }
             });
         }
@@ -134,38 +182,48 @@
     </script>
 </head>
 <body>
-<form id="add-smartphone">
-    <table>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" id="name" placeholder="Name"></td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td><input type="text" id="description" placeholder="Description"></td>
-        </tr>
-        <tr>
-            <td>Price:</td>
-            <td><input type="text" id="price" placeholder="Price"></td>
-        </tr>
-        <tr>
-            <td>Time:</td>
-            <td><input type="text" id="time" placeholder="Time"></td>
-        </tr>
-        <tr>
-            <td>Location</td>
-            <td>
+<div class="container">
+    <form id="add-fromTour">
+        <table>
+            <div>
+                <label>
+                    Name
+                </label>
+                <label>
+                    <input type="text" id="name" name="name">
+                    <span class="error_form" id="name_error"></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Description
+                </label>
+                <input type="text" id="description" name="description">
+                <span class="error_form" id="description_error"></span>
+            </div>
+            <div>
+                <label>
+                    Price
+                </label>
+                <input type="number" id="price" name="price">
+                <span class="error_form" id="price_error"></span>
+
+            </div>
+            <div>
+                Time: <input type="text" id="time" name="time">
+            </div>
+            <div>
+                <label>
+                    Location
+                </label>
                 <select id="location">
                     <option th:each="l : ${locations}" th:value="${l.id}" th:text="${l.name}"></option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Add" onclick="addTour()"></td>
-        </tr>
-    </table>
-</form>
+            </div>
+            <input type="submit" value="Add" name="" onclick="addTour()">
+        </table>
+    </form>
+</div>
 <h1>List Tours</h1>
 <table th:border="1">
     <tr>
@@ -256,7 +314,8 @@
             <div class="form-group">
             </div>
             <div class="modal-body">
-                <input type="text" disabled id="namedelete">
+                <div id="namedelete">
+                </div>
                 <p>Do you want to delete?</p>
             </div>
             <div class="modal-footer">

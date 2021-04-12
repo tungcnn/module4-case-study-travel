@@ -18,7 +18,7 @@ public class HotelServiceImpl implements IHotelService {
 
     @Override
     public Hotel findById(long id) {
-        return hotelRepository.findOne(id);
+        return hotelRepository.findById(id).get();
     }
 
     @Override
@@ -28,6 +28,6 @@ public class HotelServiceImpl implements IHotelService {
 
     @Override
     public void delete(long id) {
-        hotelRepository.delete(id);
+        hotelRepository.deleteById(id);
     }
 }
