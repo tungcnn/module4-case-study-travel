@@ -20,7 +20,7 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public Room findById(long id) {
-        return roomRepository.findOne(id);
+        return roomRepository.findById(id).get();
     }
 
     @Override
@@ -30,6 +30,6 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public void delete(long id) {
-        roomRepository.delete(id);
+        roomRepository.deleteById(id);
     }
 }
