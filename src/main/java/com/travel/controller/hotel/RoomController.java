@@ -1,6 +1,8 @@
 package com.travel.controller.hotel;
 
+import com.travel.model.hotel.Hotel;
 import com.travel.model.hotel.Room;
+import com.travel.service.hotel.IHotelService;
 import com.travel.service.hotel.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,14 +13,29 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @Service
-@RequestMapping("/hotels")
+@RequestMapping("/rooms")
 public class RoomController {
 
     @Autowired
     private IRoomService roomService;
 
+    @Autowired
+    private IHotelService hotelService;
+
+    @ModelAttribute("hotels")
+    public Iterable<Hotel> hotels() {
+        return hotelService.findAll();
+    }
+
+    @ModelAttribute("rooms")
+    public Iterable<Room> rooms() {
+        return roomService.findAll();
+    }
+
     @PostMapping
-    public  ResponseEntity<Room> createRoom(@RequestBody Room room) {
+    public  ResponseEntity<Void> createRoom(@RequestBody Room room) {
+        Room room1 = room;
+        System.out.println(room1);
         roomService.save(room);
         return new ResponseEntity<>(null,HttpStatus.CREATED);
     }
