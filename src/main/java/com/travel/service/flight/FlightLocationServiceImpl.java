@@ -17,7 +17,7 @@ public class FlightLocationServiceImpl implements IFlightLocationService{
 
     @Override
     public FlightLocation findById(long id) {
-        return flightLocationRepository.findOne(id);
+        return flightLocationRepository.findById(id).get();
     }
 
     @Override
@@ -27,6 +27,6 @@ public class FlightLocationServiceImpl implements IFlightLocationService{
 
     @Override
     public void delete(long id) {
-        flightLocationRepository.delete(id);
+        flightLocationRepository.deleteById(id);
     }
 }
