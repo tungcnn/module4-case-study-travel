@@ -17,7 +17,7 @@ public class LocationService implements ILocationService {
 
     @Override
     public Location findById(long id) {
-        return locationRepository.findOne(id);
+        return locationRepository.findById(id).get();
     }
 
     @Override
@@ -27,6 +27,6 @@ public class LocationService implements ILocationService {
 
     @Override
     public void delete(long id) {
-        locationRepository.delete(id);
+        locationRepository.deleteById(id);
     }
 }

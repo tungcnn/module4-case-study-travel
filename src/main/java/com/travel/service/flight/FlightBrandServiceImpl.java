@@ -17,7 +17,7 @@ public class FlightBrandServiceImpl implements IFlightBrandService{
 
     @Override
     public FlightBrand findById(long id) {
-        return flightBrandRepository.findOne(id);
+        return flightBrandRepository.findById(id).get();
     }
 
     @Override
@@ -27,6 +27,6 @@ public class FlightBrandServiceImpl implements IFlightBrandService{
 
     @Override
     public void delete(long id) {
-        flightBrandRepository.delete(id);
+        flightBrandRepository.deleteById(id);
     }
 }

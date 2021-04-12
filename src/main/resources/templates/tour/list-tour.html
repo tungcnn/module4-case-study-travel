@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <title>List</title>
+    <script type="text/javascript">
+
+        $().ready(function () {
+            $("#add-fromTour").validate({
+                onfocusout: true,
+                onkeyup: false,
+                onclick: false,
+                rules: {
+                    "name": {
+                        required: true,
+                        maxlength: 15
+                    },
+                    "description": {
+                        required: true,
+                        maxlength: 30
+                    },
+                    "price": {
+                        required: true,
+                        maxlength: 7,
+                        min: 0,
+                        number: true
+                    },
+                    "time": {
+                        required: true,
+                        maxlength: 10
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: " Không được để trống",
+                        maxlength: " nhập tối đa 15 ký tự"
+                    },
+                    "description": {
+                        required: " Không được để trống",
+                        maxlength: " Nhập Tối đa 30 ký tự"
+                    },
+                    "price": {
+                        required:" Không được để trống",
+                        number: " tiền phải là số ",
+                        min: "Số Tiền Phải Lớn Hơn Hoặc bằng 0"
+                    },
+                    "time": {
+                        required: "Không Được để Trống ",
+                        maxlength: "Nhập Tối đa 10 Ký tự"
+                    }
+                }
+            });
+        });
+
+        function addTour() {
+            let name = $('#name').val();
+            let description = $('#description').val();
+            let price = $('#price').val();
+            let time = $('#time').val();
+            let location = $('#location').val();
+            let newTour = {
+                name: name,
+                description: description,
+                price: price,
+                time: time,
+                location: {
+                    id: location
+                }
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(newTour),
+                url: "/tours/save",
+                success: successHandler
+
+            });
+            event.preventDefault();
+        }
+
+        function successHandler() {
+            $.ajax({
+                type: "GET",
+                url: "/tours/list",
+                success: function (data) {
+                    let content = "";
+                    for (let i = 0; i < data.length; i++) {
+                        content += getTour(data[i]);
+                    }
+                    document.getElementById("lisTour").innerHTML = content;
+                }
+            })
+        }
+
+        function getTour(tour) {
+            return `<tr>
+                        <td>${tour.name}</td>
+                        <td>${tour.description}</td>
+                        <td>${tour.price}</td>
+                        <td>${tour.time}</td>
+                        <td>${tour.location.name}</td>
+                        <td>
+                        <a id="${tour.id}" href="/tour/${tour.id}" onclick="showDelete(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteTour">Delete</a>
+                        <a id="${tour.id}" href="/tour/${tour.id}" onclick="ShowEditTour(id)"class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
+                   data-whatever="@getbootstrap">Edit</a>
+                        </td>
+                    </tr>`
+        }
+
+        function showDelete(id) {
+            $.ajax({
+                url: `/tours/${id}`,
+                type: "GET",
+                success: function (data) {
+                    document.getElementById("iddelete").value = data.id;
+                    document.getElementById("namedelete").innerText = data.name;
+                }
+            });
+        }
+
+        function deleteTour() {
+            let iddelte = $('#iddelete').val()
+            $.ajax({
+                url: `tours/${iddelte}`,
+                type: "DELETE",
+                success: function () {
+                    document.getElementById(iddelte).parentElement.parentElement.remove()
+                }
+            });
+            event.preventDefault();
+        }
+
+        function ShowEditTour(id) {
+            $.ajax({
+                url: `/tours/${id}`,
+                type: "GET",
+                success: function (data) {
+                    document.getElementById("ids").value = data.id;
+                    document.getElementById("names").value = data.name;
+                    document.getElementById("descriptions").value = data.description;
+                    document.getElementById("prices").value = data.price;
+                    document.getElementById("times").value = data.time;
+                    document.getElementById("locations").value = data.location.id;
+                }
+            });
+        }
+
+        function editTour() {
+            let ids = $('#ids').val();
+            let names = $('#names').val();
+            let descriptions = $('#descriptions').val();
+            let prices = $('#prices').val();
+            let times = $('#times').val();
+            let locations = $('#locations').val();
+            let editTours = {
+                id: ids,
+                name: names,
+                description: descriptions,
+                price: prices,
+                time: times,
+                location: {id: locations},
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "PUT",
+                data: JSON.stringify(editTours),
+                url: `/tours`,
+                success: successHandler
+            });
+            event.preventDefault();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <form id="add-fromTour">
+        <table>
+            <div>
+                <label>
+                    Name
+                </label>
+                <label>
+                    <input type="text" id="name" name="name">
+                    <span class="error_form" id="name_error"></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Description
+                </label>
+                <input type="text" id="description" name="description">
+                <span class="error_form" id="description_error"></span>
+            </div>
+            <div>
+                <label>
+                    Price
+                </label>
+                <input type="number" id="price" name="price">
+                <span class="error_form" id="price_error"></span>
+
+            </div>
+            <div>
+                Time: <input type="text" id="time" name="time">
+            </div>
+            <div>
+                <label>
+                    Location
+                </label>
+                <select id="location">
+                    <option th:each="l : ${locations}" th:value="${l.id}" th:text="${l.name}"></option>
+                </select>
+            </div>
+            <input type="submit" value="Add" name="" onclick="addTour()">
+        </table>
+    </form>
+</div>
+<h1>List Tours</h1>
+<table th:border="1">
+    <tr>
+        <td>Producer</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Price</td>
+        <td>Location</td>
+        <td>Action</td>
+    </tr>
+    <tbody id="lisTour">
+    <th:block th:each="tour: ${tours}">
+        <tr>
+            <td th:text="${tour.name}"></td>
+            <td th:text="${tour.description}"></td>
+            <td th:text="${tour.price}"></td>
+            <td th:text="${tour.time}"></td>
+            <td th:text="${tour.location.name}"></td>
+            <td>
+                <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="showDelete(id)" class="btn btn-danger"
+                   data-toggle="modal" data-target="#deleteTour">Delete</a>
+                <a th:id="${tour.id}" th:href="@{/tour/__${tour.id}__}" onclick="ShowEditTour(id)"
+                   class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
+                   data-whatever="@getbootstrap">Edit</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+
+<!-----------------------------------------------Modal Show Edit------------------------------------------------------------>
+<div class="modal fade" id="ShowEditTour" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="number" id="ids" hidden>
+                    <div class="form-group">
+                        <label for="names" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="names">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Descriptions:</label>
+                        <input type="text" class="form-control" id="descriptions">
+                    </div>
+                    <div class="form-group">
+                        <label for="prices" class="col-form-label">Prices:</label>
+                        <input type="text" class="form-control" id="prices">
+                    </div>
+                    <div class="form-group">
+                        <label for="times" class="col-form-label">Time:</label>
+                        <input type="text" class="form-control" id="times">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <select id="locations" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}" th:text="${l.name}"></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editTour()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete -->
+<div class="modal fade" id="deleteTour" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="number" id="iddelete" hidden>
+            <div class="form-group">
+            </div>
+            <div class="modal-body">
+                <div id="namedelete">
+                </div>
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteTour()">Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
