@@ -3,7 +3,9 @@ package com.travel.service.role;
 import com.travel.model.AppRole;
 import com.travel.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleService implements IRoleService {
     @Autowired
     private RoleRepository roleRepository;
