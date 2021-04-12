@@ -6,6 +6,7 @@ import com.travel.service.hotel.IHotelService;
 import com.travel.service.hotel.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -32,25 +33,40 @@ public class RoomController {
         return roomService.findAll();
     }
 
-    @PostMapping
-    public  ResponseEntity<Void> createRoom(@RequestBody Room room) {
-        Room room1 = room;
-        System.out.println(room1);
-        roomService.save(room);
-        return new ResponseEntity<>(null,HttpStatus.CREATED);
-    }
-
-    @GetMapping
+    @GetMapping("/ajax")
     public ResponseEntity<Iterable<Room>> allRooms(){
     Iterable<Room> rooms = roomService.findAll();
     return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ModelAndView getAllRooms() {
         ModelAndView mav = new ModelAndView("/hotel/list");
         Iterable<Room> rooms = roomService.findAll();
         mav.addObject("rooms", rooms);
         return mav;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Room> findById(@PathVariable("id") long id) {
+        return new ResponseEntity<>(roomService.findById(id), HttpStatus.OK);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> addRoom(@RequestBody Room room) {
+        roomService.save(room);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editRoom(@RequestBody Room room) {
+        roomService.save(room);
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable("id") long id) {
+        roomService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
