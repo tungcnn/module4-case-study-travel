@@ -26,7 +26,7 @@ public class TourController {
     }
 
 
-    @PostMapping(value = "save", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createTour(@RequestBody Tour tour) {
         tourService.save(tour);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
@@ -43,4 +43,22 @@ public class TourController {
         modelAndView.addObject("tours", showTours());
         return modelAndView;
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
+        tourService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editTour(@RequestBody Tour tour) {
+        tourService.save(tour);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Tour> findTourId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(tourService.findById(id), HttpStatus.OK);
+    }
+
 }
