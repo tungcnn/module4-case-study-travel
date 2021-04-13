@@ -1,7 +1,7 @@
 package com.travel.repository.tour;
 
 import com.travel.model.tour.Tour;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ITourRepository extends CrudRepository<Tour,Long> {
+public interface ITourRepository extends JpaRepository<Tour,Long> {
 }

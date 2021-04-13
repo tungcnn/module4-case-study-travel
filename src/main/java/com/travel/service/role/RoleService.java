@@ -3,6 +3,8 @@ package com.travel.service.role;
 import com.travel.model.AppRole;
 import com.travel.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,8 +18,8 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public Iterable<AppRole> findAll() {
-        return roleRepository.findAll();
+    public Page<AppRole> findAll(Pageable pageable) {
+        return roleRepository.findAll(pageable);
     }
 
     @Override
