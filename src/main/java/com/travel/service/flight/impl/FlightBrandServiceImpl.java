@@ -1,18 +1,21 @@
-package com.travel.service.flight;
+package com.travel.service.flight.impl;
 
 import com.travel.model.flight.FlightBrand;
 import com.travel.repository.flight.IFlightBrandRepository;
+import com.travel.service.flight.serviceinterface.IFlightBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FlightBrandServiceImpl implements IFlightBrandService{
+public class FlightBrandServiceImpl implements IFlightBrandService {
     @Autowired
     private IFlightBrandRepository flightBrandRepository;
 
     @Override
-    public Iterable<FlightBrand> findAll() {
-        return flightBrandRepository.findAll();
+    public Page<FlightBrand> findAll(Pageable pageable) {
+        return flightBrandRepository.findAll(pageable);
     }
 
     @Override
