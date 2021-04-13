@@ -1,4 +1,4 @@
-package com.travel.service.flight;
+package com.travel.service.flight.serviceinterface;
 
 import com.travel.model.flight.Flight;
 import com.travel.service.IGeneral;

@@ -161,9 +161,10 @@
                 type: "GET",
                 url: "/flights/ajax",
                 success: function (data) {
+                    console.log(data);
                     let content = "";
-                    for (let i = 0; i < data.length; i++) {
-                        content += getFlight(data[i]);
+                    for (let i = 0; i < data.content.length; i++) {
+                        content += getFlight(data.content[i]);
                     }
                     document.getElementById("flightList").innerHTML = content;
                     document.getElementById("date").value = "";
@@ -513,7 +514,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/flights">
                                 <span data-feather="file"></span>
                                 Flights
                             </a>
@@ -525,7 +526,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/rooms">
                                 <span data-feather="users"></span>
                                 Hotel
                             </a>

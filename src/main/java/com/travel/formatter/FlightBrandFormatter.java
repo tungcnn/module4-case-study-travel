@@ -1,7 +1,7 @@
 package com.travel.formatter;
 
 import com.travel.model.flight.FlightBrand;
-import com.travel.service.flight.IFlightBrandService;
+import com.travel.service.flight.serviceinterface.IFlightBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;

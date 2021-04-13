@@ -5,6 +5,8 @@ import com.travel.model.tour.Tour;
 import com.travel.service.tour.LocationService;
 import com.travel.service.tour.TourServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,8 @@ public class TourController {
     }
 
     @ModelAttribute("locations")
-    public Iterable<Location> locations() {
-        return locationService.findAll();
+    public Page<Location> locations(Pageable pageable) {
+        return locationService.findAll(pageable);
     }
 
 
@@ -37,14 +39,14 @@ public class TourController {
     }
 
     @GetMapping("list")
-    public Iterable<Tour> showTours() {
-        return tourService.findAll();
+    public Page<Tour> showTours(Pageable pageable) {
+        return tourService.findAll(pageable);
     }
 
-    @GetMapping("")
-    public ModelAndView showLisTours() {
+    @GetMapping
+    public ModelAndView showLisTours(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("tour/list-tour");
-        modelAndView.addObject("tours", showTours());
+        modelAndView.addObject("tours", showTours(pageable));
         return modelAndView;
     }
 
