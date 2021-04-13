@@ -16,11 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("tours")
 public class TourController {
-    @Autowired
-    private LocationService locationService;
+    private final LocationService locationService;
+
+    private final TourServiceImpl tourService;
 
     @Autowired
-    private TourServiceImpl tourService;
+    public TourController(LocationService locationService, TourServiceImpl tourService) {
+        this.locationService = locationService;
+        this.tourService = tourService;
+    }
 
     @ModelAttribute("locations")
     public Page<Location> locations(Pageable pageable) {
@@ -46,7 +50,7 @@ public class TourController {
         return modelAndView;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
         tourService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
@@ -58,8 +62,8 @@ public class TourController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Tour> findTourId(@PathVariable("id") Long id) {
+    @GetMapping("find/{id}")
+    public ResponseEntity<Tour> findTourId(@PathVariable Long id) {
         return new ResponseEntity<>(tourService.findById(id), HttpStatus.OK);
     }
 

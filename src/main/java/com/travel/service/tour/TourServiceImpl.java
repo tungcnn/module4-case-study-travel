@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TourServiceImpl implements ITourService {
+    private final ITourRepository tourRepository;
+
     @Autowired
-    private ITourRepository tourRepository;
+    public TourServiceImpl(ITourRepository tourRepository) {
+        this.tourRepository = tourRepository;
+    }
 
     @Override
     public Page<Tour> findAll(Pageable pageable) {
