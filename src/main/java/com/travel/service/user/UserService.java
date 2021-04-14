@@ -3,6 +3,8 @@ package com.travel.service.user;
 import com.travel.model.AppUser;
 import com.travel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +35,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Iterable<AppUser> findAll() {
-        return userRepository.findAll();
+    public Page<AppUser> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override

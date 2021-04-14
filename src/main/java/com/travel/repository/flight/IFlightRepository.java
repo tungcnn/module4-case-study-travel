@@ -1,8 +1,7 @@
 package com.travel.repository.flight;
 
 import com.travel.model.flight.Flight;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IFlightRepository extends PagingAndSortingRepository<Flight, Long> {
+public interface IFlightRepository extends JpaRepository<Flight, Long> {
 }

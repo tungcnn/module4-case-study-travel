@@ -28,7 +28,6 @@ dependencies {
     //Lombok
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor 'org.projectlombok:lombok'
-
 }
 
 test {

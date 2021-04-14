@@ -154,10 +154,9 @@
         function successHandle() {
             $.ajax({
                 type: "GET",
-
-                url: "/rooms",
-
+                url: "/rooms/ajax",
                 success: function (data) {
+                    console.log(data)
                     let room = "";
                     for (let i = 0; i < data.content.length; i++) {
                         room += getNewRoom(data.content[i])
@@ -174,9 +173,17 @@
         }
 
         function getNewRoom(newRoom) {
-            return `<tr><td>${newRoom.hotel.name}</td><td>${newRoom.name}</td><td>${newRoom.type}</td><td>${newRoom.price}</td><td>${newRoom.slot}</td><td>${newRoom.detail}</td>` +
-                `<td><a class="btn btn-primary editRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="showFormEdit(id)" data-toggle="modal" data-target="#editModal">Edit</a></td>` +
-                `<td><a class="btn btn-danger deleteRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="deleteRoom(id)">Delete</a></td></tr>`;
+            return `<tr>
+                        <td>${newRoom.id}</td>
+                        <td>${newRoom.hotel.name}</td>
+                        <td>${newRoom.name}</td>
+                        <td>${newRoom.type}</td>
+                        <td>${newRoom.price}</td>
+                        <td>${newRoom.slot}</td>
+                        <td>${newRoom.detail}</td>
+                        <td><a class="btn btn-primary editRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="showFormEdit(id)" data-toggle="modal" data-target="#editModal">Edit</a></td>
+                        <td><a class="btn btn-danger deleteRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="deleteRoom(id)">Delete</a></td>
+                    </tr>`;
         }
 
         function showFormEdit(id) {
@@ -277,6 +284,10 @@
                         <label>Slot: </label>
                         <input type="text" id="slot" class="form-control" placeholder="Slot">
                     </div>
+                    <div class="form-group">
+                        <label>Detail: </label>
+                        <input type="text" id="detail" class="form-control" placeholder="Detail">
+                    </div>
                     <button class="btn btn-primary" onclick="addNewRoom()" data-dismiss="modal">Add</button>
                 </form>
             </div>
@@ -371,7 +382,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="/rooms">
                                 <span data-feather="users"></span>
                                 Hotel
                             </a>

@@ -3,10 +3,12 @@ package com.travel.controller.flight;
 import com.travel.model.flight.Flight;
 import com.travel.model.flight.FlightBrand;
 import com.travel.model.flight.FlightLocation;
-import com.travel.service.flight.IFlightBrandService;
-import com.travel.service.flight.IFlightLocationService;
-import com.travel.service.flight.IFlightService;
+import com.travel.service.flight.serviceinterface.IFlightBrandService;
+import com.travel.service.flight.serviceinterface.IFlightLocationService;
+import com.travel.service.flight.serviceinterface.IFlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,21 +26,30 @@ public class FlightController {
     private IFlightLocationService flightLocationService;
 
     @ModelAttribute("brands")
-    public Iterable<FlightBrand> getAllBrand() {
-        return flightBrandService.findAll();
+    public Page<FlightBrand> getAllBrand(Pageable pageable) {
+        return flightBrandService.findAll(pageable);
     }
     @ModelAttribute("flights")
-    public Iterable<Flight> getAllFlights() {
-        return flightService.findAll();
+    public Page<Flight> getAllFlights(Pageable pageable) {
+        return flightService.findAll(pageable);
     }
     @ModelAttribute("locations")
-    public Iterable<FlightLocation> getAllLocation() {
-        return flightLocationService.findAll();
+    public Page<FlightLocation> getAllLocation(Pageable pageable) {
+        return flightLocationService.findAll(pageable);
+    }
+    @ModelAttribute("pages")
+    public int[] getPages(Pageable pageable) {
+        int totalPages = flightService.findAll(pageable).getTotalPages();
+        int[] pages = new int[totalPages];
+        for (int i = 0; i < totalPages ; i++) {
+            pages[i] = i;
+        }
+        return pages;
     }
 
     @GetMapping("/ajax")
-    public ResponseEntity<Iterable<Flight>> getAllFlightsAjax() {
-        return new ResponseEntity<>(flightService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<Flight>> getAllFlightsAjax(Pageable pageable) {
+        return new ResponseEntity<>(flightService.findAll(pageable), HttpStatus.OK);
     }
     @GetMapping
     public ModelAndView showFlightList() {

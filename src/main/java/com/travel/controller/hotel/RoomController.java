@@ -5,6 +5,8 @@ import com.travel.model.hotel.Room;
 import com.travel.service.hotel.IHotelService;
 import com.travel.service.hotel.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,25 +26,25 @@ public class RoomController {
     private IHotelService hotelService;
 
     @ModelAttribute("hotels")
-    public Iterable<Hotel> hotels() {
-        return hotelService.findAll();
+    public Page<Hotel> hotels(Pageable pageable) {
+        return hotelService.findAll(pageable);
     }
 
     @ModelAttribute("rooms")
-    public Iterable<Room> rooms() {
-        return roomService.findAll();
+    public Page<Room> rooms(Pageable pageable) {
+        return roomService.findAll(pageable);
     }
 
     @GetMapping("/ajax")
-    public ResponseEntity<Iterable<Room>> allRooms(){
-    Iterable<Room> rooms = roomService.findAll();
+    public ResponseEntity<Iterable<Room>> allRooms(Pageable pageable){
+    Page<Room> rooms = roomService.findAll(pageable);
     return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ModelAndView getAllRooms() {
+    @GetMapping
+    public ModelAndView getAllRooms(Pageable pageable) {
         ModelAndView mav = new ModelAndView("/hotel/list");
-        Iterable<Room> rooms = roomService.findAll();
+        Page<Room> rooms = roomService.findAll(pageable);
         mav.addObject("rooms", rooms);
         return mav;
     }

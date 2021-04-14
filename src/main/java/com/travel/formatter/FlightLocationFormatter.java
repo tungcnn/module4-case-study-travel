@@ -1,7 +1,7 @@
 package com.travel.formatter;
 
 import com.travel.model.flight.FlightLocation;
-import com.travel.service.flight.IFlightLocationService;
+import com.travel.service.flight.serviceinterface.IFlightLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
