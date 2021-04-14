@@ -32,4 +32,9 @@ public class FlightServiceImpl implements IFlightService {
     public void delete(long id) {
         flightRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Flight> search(String string, Pageable pageable) {
+        return flightRepository.findFlightsByCodeContains(string, pageable);
+    }
 }

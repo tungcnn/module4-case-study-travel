@@ -19,6 +19,18 @@
             font-size: .875rem;
         }
 
+        li {
+            float: left;
+            width: 25%;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         /*
          * Sidebar
          */
@@ -107,6 +119,8 @@
             let toLocation = $('#toLocation').val();
             let price = $('#price').val();
             let flightBrand = $('#flightBrand').val();
+            let flightBrandID = flightBrand.slice(0, 1);
+            let flightBrandCode = flightBrand.slice(1);
             let newFlight = {
                 date: date,
                 startTime: startTime,
@@ -119,7 +133,8 @@
                 },
                 price: price,
                 flightBrand: {
-                    id: flightBrand
+                    id: flightBrandID,
+                    code: flightBrandCode
                 }
             };
             $.ajax({
@@ -170,6 +185,7 @@
             date = date.getFullYear() + "-" + month + "-" + date2;
             return `<tr>
                         <td>${flight.id}</td>
+                        <td>${flight.code}</td>
                         <td>${date}</td>
                         <td>${flight.startTime}</td>
                         <td>${flight.arriveTime}</td>
@@ -306,11 +322,12 @@
         function previousPage() {
             let currentPage = parseInt(document.getElementById("currentPage").innerText);
             if (currentPage !== 1) {
-                currentPage-=2;
+                currentPage -= 2;
                 let id = "page" + currentPage;
                 toActivePage(id);
             }
         }
+
         function nextPage() {
             let currentPage = parseInt(document.getElementById("currentPage").innerText);
             let buttons = document.getElementsByClassName("page-item");
@@ -318,11 +335,27 @@
             for (let i = 0; i < buttons.length; i++) {
                 lastPage = buttons[i];
             }
-            let lastPageNumber = parseInt(lastPage.id.slice(4,5));
+            let lastPageNumber = parseInt(lastPage.id.slice(4, 5));
             if (currentPage !== lastPageNumber) {
                 let id = "page" + currentPage;
                 toActivePage(id);
             }
+        }
+
+        function searchFlight() {
+            let search = $("#searchBox").val();
+            $.ajax({
+                url: `/flights/ajax?q=${search}`,
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    let content = "";
+                    for (let i = 0; i < data.content.length; i++) {
+                        content += getFlight(data.content[i]);
+                    }
+                    document.getElementById("flightList").innerHTML = content;
+                }
+            })
         }
     </script>
 </head>
@@ -372,7 +405,8 @@
                     <div class="form-group">
                         <label for="flightBrand">Flight Brands</label>
                         <select id="flightBrand" class="form-control">
-                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                            <option th:each="fb:${brands}" th:value="${fb.id} + ${fb.code}"
+                                    th:text="${fb.name}"></option>
                         </select>
                     </div>
                 </form>
@@ -505,11 +539,18 @@
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="input-group mb-3">
-        <input style="margin-top: 15px" type="text" class="form-control form-control-dark" placeholder="search" aria-label="search" aria-describedby="button-addon">
-        <div class="input-group-append">
-            <button style="margin-top: 15px" class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
-        </div>
+    <div class="col-md-6">
+        <form>
+            <div class="input-group mb-3">
+                <input style="margin-top: 15px" type="text" class="form-control form-control-dark" placeholder="find by date or location"
+                       aria-label="search" aria-describedby="button-addon" id="searchBox">
+                <div class="input-group-append">
+                    <button style="margin-top: 15px" class="btn btn-outline-secondary" type="button" id="button-addon" onclick="searchFlight()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -604,6 +645,7 @@
                         <thead>
                         <tr>
                             <th>id</th>
+                            <th>Flight Code</th>
                             <th>Date</th>
                             <th>Start Time</th>
                             <th>Arrive Time</th>
@@ -618,6 +660,7 @@
                         <tbody id="flightList">
                         <tr th:each="f:${flights}">
                             <td th:text="${f.id}"></td>
+                            <td th:text="${f.code}"></td>
                             <td th:text="${f.date}"></td>
                             <td th:text="${f.startTime}"></td>
                             <td th:text="${f.arriveTime}"></td>

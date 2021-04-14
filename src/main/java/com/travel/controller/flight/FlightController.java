@@ -15,8 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/flights")
 public class FlightController {
     @Autowired
     private IFlightBrandService flightBrandService;
@@ -47,30 +48,38 @@ public class FlightController {
         return pages;
     }
 
-    @GetMapping("/ajax")
-    public ResponseEntity<Page<Flight>> getAllFlightsAjax(Pageable pageable) {
-        return new ResponseEntity<>(flightService.findAll(pageable), HttpStatus.OK);
+    @GetMapping("/flights/ajax")
+    public ResponseEntity<Page<Flight>> getAllFlightsAjax(@RequestParam(required = false) String q, Pageable pageable) {
+        Page<Flight> flights;
+        if (q != null) {
+            flights = flightService.search(q, pageable);
+        } else {
+            flights = flightService.findAll(pageable);
+        }
+        return new ResponseEntity<>(flights, HttpStatus.OK);
     }
-    @GetMapping
+    @GetMapping("/flights")
     public ModelAndView showFlightList() {
         return new ModelAndView("/flight/list-flight", "flight", new Flight());
     }
-    @GetMapping("/{id}")
+    @GetMapping("/flights/{id}")
     public ResponseEntity<Flight> findFlightById(@PathVariable("id") long id) {
         return new ResponseEntity<>(flightService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/flights", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addFlight(@RequestBody Flight flight) {
+        flightService.save(flight);
+        flight.setCode(flight.getFlightBrand().getCode() + flight.getId());
         flightService.save(flight);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/flights", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> editFlight(@RequestBody Flight flight) {
         flightService.save(flight);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/flights/{id}")
     public ResponseEntity<Void> deleteSmartphone(@PathVariable Integer id){
         flightService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
