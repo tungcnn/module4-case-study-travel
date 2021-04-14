@@ -66,5 +66,4 @@ public class TourController {
     public ResponseEntity<Tour> findTourId(@PathVariable Long id) {
         return new ResponseEntity<>(tourService.findById(id), HttpStatus.OK);
     }
-
 }

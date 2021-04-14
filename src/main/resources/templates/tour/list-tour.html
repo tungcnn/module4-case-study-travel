@@ -2,268 +2,152 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-<!--    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>-->
-<!--    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-
-<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!--    ajax-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
-    <script type="text/javascript">
-        $().ready(function () {
-            $("#add-fromTour").validate({
-                onfocusout: true,
-                onkeyup: false,
-                onclick: false,
-                rules: {
-                    "name": {
-                        required: true,
-                        maxlength: 15
-                    },
-                    "description": {
-                        required: true,
-                        maxlength: 30
-                    },
-                    "price": {
-                        required: true,
-                        maxlength: 7,
-                        min: 0,
-                        number: true
-                    },
-                    "time": {
-                        required: true,
-                        maxlength: 10
-                    }
-                },
-                messages: {
-                    "name": {
-                        required: " Không được để trống",
-                        maxlength: " nhập tối đa 15 ký tự"
-                    },
-                    "description": {
-                        required: " Không được để trống",
-                        maxlength: " Nhập Tối đa 30 ký tự"
-                    },
-                    "price": {
-                        required: " Không được để trống",
-                        number: " tiền phải là số ",
-                        min: "Số Tiền Phải Lớn Hơn Hoặc bằng 0"
-                    },
-                    "time": {
-                        required: "Không Được để Trống ",
-                        maxlength: "Nhập Tối đa 10 Ký tự"
-                    }
-                }
-            })
-        });
-
-        function addTour() {
-            let name = $('#name').val();
-            let description = $('#description').val();
-            let price = $('#price').val();
-            let time = $('#time').val();
-            let location = $('#location').val();
-            let newTour = {
-                name: name,
-                description: description,
-                price: price,
-                time: time,
-                location: {
-                    id: location
-                }
-            };
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "POST",
-                data: JSON.stringify(newTour),
-                url: "/tours/save",
-                success: successHandler
-
-            });
-            event.preventDefault();
-        }
-
-        function successHandler() {
-            $.ajax({
-                type: "GET",
-                url: "/tours/list",
-                success: function (data) {
-                    let content = "";
-                    for (let i = 0; i < data.content.length; i++) {
-                        content += getTour(data.content[i]);
-                    }
-                    document.getElementById("lisTour").innerHTML = content;
-                }
-            })
-        }
-
-        function getTour(tour) {
-            return `<tr>
-                        <td>${tour.name}</td>
-                        <td>${tour.description}</td>
-                        <td>${tour.price}</td>
-                        <td>${tour.time}</td>
-                        <td>${tour.location.name}</td>
-                        <td>
-                        <a id="${tour.id}" href="/tours/find/${tour.id}" onclick="showDelete(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteTour">Delete</a>
-                        <a id="${tour.id}" href="/tours/find/${tour.id}" onclick="ShowEditTour(id)"class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
-                   data-whatever="@getbootstrap">Edit</a>
-                        </td>
-                    </tr>`
-        }
-
-        function showDelete(id) {
-            $.ajax({
-                url: `/tours/find/${id}`,
-                type: "GET",
-                success: function (data) {
-                    document.getElementById("iddelete").value = data.id;
-                    document.getElementById("namedelete").innerText = data.name;
-                }
-            });
-        }
-
-        function deleteTour() {
-            let iddelte = $('#iddelete').val();
-            $.ajax({
-                url: `tours/delete/${iddelte}`,
-                type: "DELETE",
-                success: function () {
-                    document.getElementById(iddelte).parentElement.parentElement.remove()
-                }
-            });
-            event.preventDefault();
-        }
-
-
-        function ShowEditTour(id) {
-            $.ajax({
-                url: "/tours/find/" + id,
-                type: "GET",
-                success: function (data) {
-                    document.getElementById("ids").value = data.id;
-                    document.getElementById("names").value = data.name;
-                    document.getElementById("descriptions").value = data.description;
-                    document.getElementById("prices").value = data.price;
-                    document.getElementById("times").value = data.time;
-                    document.getElementById("locations").value = data.location.id;
-                }
-            });
-        }
-
-        function editTour() {
-            let ids = $('#ids').val();
-            let names = $('#names').val();
-            let descriptions = $('#descriptions').val();
-            let prices = $('#prices').val();
-            let times = $('#times').val();
-            let locations = $('#locations').val();
-            let editTours = {
-                id: ids,
-                name: names,
-                description: descriptions,
-                price: prices,
-                time: times,
-                location: {id: locations},
-            };
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                type: "PUT",
-                data: JSON.stringify(editTours),
-                url: `/tours`,
-                success: successHandler
-            });
-            event.preventDefault();
-        }
-
-    </script>
-    <title>List</title>
-    <!--    <script src="function.js"></script>-->
+    <script type="text/javascript" src="../../static/funstionTour.js"></script>
+    <link rel="stylesheet" href="../../static/styleTour.css">
+    <title>List Tour</title>
 </head>
 <body>
-<div class="container">
-    <form id="add-fromTour">
-        <table>
-            <div>
-                <label>
-                    Name
-                </label>
-                <label>
-                    <input type="text" id="name" name="name">
-                    <span class="error_form" id="name_error"></span>
-                </label>
-            </div>
-            <div>
-                <label>
-                    Description
-                </label>
-                <input type="text" id="description" name="description">
-                <span class="error_form" id="description_error"></span>
-            </div>
-            <div>
-                <label>
-                    Price
-                </label>
-                <input type="number" id="price" name="price">
-                <span class="error_form" id="price_error"></span>
 
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/flights">Travel Kalo</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
+            data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="input-group mb-3">
+        <input id="search" type="text" class="form-control form-control-dark" placeholder="search" aria-label="search"
+               aria-describedby="button-addon">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
+        </div>
+    </div>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="#">Sign out</a>
+        </li>
+    </ul>
+</nav>
+<!-----------------------------------------------------------body------------------------------------------------------->
+<div class="container-fluid">
+    <div class="row">
+        <!-----------------------------------------------------------sidebar------------------------------------------------------->
+        <div class="col-md-2">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="sidebar-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/flights">
+                                <span data-feather="file"></span>
+                                Flights
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tours">
+                                <span data-feather="shopping-cart"></span>
+                                Tour
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rooms">
+                                <span data-feather="users"></span>
+                                Hotel
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="bar-chart-2"></span>
+                                User
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-----------------------------------------------------------table------------------------------------------------------->
+        <div class="col-md-9">
+            <div class="col-md-10 offset-1">
+                <div class="row">
+                    <h1 style="width: 100%; text-align: center;margin-bottom: 50px; margin-top: 50px"> List Tours</h1>
+                </div>
+                <br>
+                <div class="row">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                        Create new Tour
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-6">
+                        <nav aria-label="Page navigation example" style="float: right">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                        <tr>
+                            <th>Producer</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>Price</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="lisTour">
+                        <th:block th:each="tour: ${tours}">
+                            <tr>
+                                <td th:text="${tour.name}"></td>
+                                <td th:text="${tour.description}"></td>
+                                <td th:text="${tour.price}"></td>
+                                <td th:text="${tour.time}"></td>
+                                <td th:text="${tour.location.name}"></td>
+                                <td>
+                                    <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}"
+                                       onclick="showDelete(id)"
+                                       class="btn btn-danger"
+                                       data-toggle="modal" data-target="#deleteTour">Delete</a>
+                                    <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}"
+                                       onclick="ShowEditTour(id)"
+                                       class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
+                                       data-whatever="@getbootstrap">Edit</a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div>
-                Time: <input type="text" id="time" name="time">
-            </div>
-            <div>
-                <label>
-                    Location
-                </label>
-                <select id="location">
-                    <option th:each="l : ${locations}" th:value="${l.id}" th:text="${l.name}"></option>
-                </select>
-            </div>
-            <input type="submit" value="Add" name="" onclick="addTour()">
-        </table>
-    </form>
+        </div>
+    </div>
 </div>
-<h1>List Tours</h1>
-<table th:border="1">
-    <tr>
-        <td>Producer</td>
-        <td>Model</td>
-        <td>Price</td>
-        <td>Price</td>
-        <td>Location</td>
-        <td>Action</td>
-    </tr>
-    <tbody id="lisTour">
-    <th:block th:each="tour: ${tours}">
-        <tr>
-            <td th:text="${tour.name}"></td>
-            <td th:text="${tour.description}"></td>
-            <td th:text="${tour.price}"></td>
-            <td th:text="${tour.time}"></td>
-            <td th:text="${tour.location.name}"></td>
-            <td>
-                <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}" onclick="showDelete(id)"
-                   class="btn btn-danger"
-                   data-toggle="modal" data-target="#deleteTour">Delete</a>
-                <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}" onclick="ShowEditTour(id)"
-                   class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
-                   data-whatever="@getbootstrap">Edit</a>
-            </td>
-        </tr>
-    </th:block>
-    </tbody>
-</table>
-
-
 <!-----------------------------------------------Modal Show Edit------------------------------------------------------------>
 <div class="modal fade" id="ShowEditTour" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -331,6 +215,49 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteTour()">Delete
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------------------create modal------------------------------------------------------------------->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">NEW Tour</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-fromTour" novalidate="novalidate">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="description" name="description" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="price" name="price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="text" id="time" name="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <select id="location">
+                            <option th:each="l : ${locations}" th:value="${l.id}" th:text="${l.name}"></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+                <button class="btn btn-primary" data-dismiss="modal" onclick="addTour()">Add</button>
             </div>
         </div>
     </div>
