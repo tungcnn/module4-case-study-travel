@@ -19,12 +19,6 @@
             font-size: .875rem;
         }
 
-        .feather {
-            width: 16px;
-            height: 16px;
-            vertical-align: text-bottom;
-        }
-
         /*
          * Sidebar
          */
@@ -66,23 +60,8 @@
             color: #333;
         }
 
-        .sidebar .nav-link .feather {
-            margin-right: 4px;
-            color: #999;
-        }
-
         .sidebar .nav-link.active {
             color: #007bff;
-        }
-
-        .sidebar .nav-link:hover .feather,
-        .sidebar .nav-link.active .feather {
-            color: inherit;
-        }
-
-        .sidebar-heading {
-            font-size: .75rem;
-            text-transform: uppercase;
         }
 
         /*
@@ -361,37 +340,37 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="date">Start Date</label>
                         <input type="date" id="date" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTime">Start Time</label>
                         <input type="time" id="startTime" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTime">Arrival Time</label>
                         <input type="time" id="arriveTime" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocation">From Location</label>
                         <select id="fromLocation" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocation">To Location</label>
                         <select id="toLocation" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="price">Price</label>
                         <input type="text" id="price" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrand">Flight Brands</label>
                         <select id="flightBrand" class="form-control">
                             <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
                         </select>
@@ -419,37 +398,37 @@
                 <form>
                     <input type="text" id="idEdit" hidden>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="dateEdit">Start Date</label>
                         <input type="date" id="dateEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTimeEdit">Start Time</label>
                         <input type="time" id="startTimeEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTimeEdit">Arrival Time</label>
                         <input type="time" id="arriveTimeEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocationEdit">From Location</label>
                         <select id="fromLocationEdit" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocationEdit">To Location</label>
                         <select id="toLocationEdit" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="priceEdit">Price</label>
                         <input type="text" id="priceEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrandEdit">Flight Brands</label>
                         <select id="flightBrandEdit" class="form-control">
                             <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
                         </select>
@@ -474,37 +453,37 @@
                 <form>
                     <input type="text" id="idDel" hidden>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="dateDel">Start Date</label>
                         <input type="date" id="dateDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTimeDel">Start Time</label>
                         <input type="time" id="startTimeDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTimeDel">Arrival Time</label>
                         <input type="time" id="arriveTimeDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocationDel">From Location</label>
                         <select id="fromLocationDel" class="form-control" disabled>
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocationDel">To Location</label>
                         <select id="toLocationDel" class="form-control" disabled>
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="priceDel">Price</label>
                         <input type="text" id="priceDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrandDel">Flight Brands</label>
                         <select id="flightBrandDel" class="form-control" disabled>
                             <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
                         </select>
@@ -527,9 +506,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-dark" placeholder="search" aria-label="search" aria-describedby="button-addon">
+        <input style="margin-top: 15px" type="text" class="form-control form-control-dark" placeholder="search" aria-label="search" aria-describedby="button-addon">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
+            <button style="margin-top: 15px" class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
         </div>
     </div>
     <ul class="navbar-nav px-3">
