@@ -159,8 +159,8 @@
 
                 success: function (data) {
                     let room = "";
-                    for (let i = 0; i < data.length; i++) {
-                        room += getNewRoom(data[i])
+                    for (let i = 0; i < data.content.length; i++) {
+                        room += getNewRoom(data.content[i])
                     }
                     document.getElementById('rooms').innerHTML = room;
                     document.getElementById('hotel').value = "";
