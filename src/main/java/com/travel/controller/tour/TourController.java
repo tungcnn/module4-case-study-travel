@@ -50,6 +50,16 @@ public class TourController {
         return modelAndView;
     }
 
+    @ModelAttribute("pages")
+    public int[] getPages(Pageable pageable) {
+        int totalPages = tourService.findAll(pageable).getTotalPages();
+        int[] pages = new int[totalPages];
+        for (int i = 0; i < totalPages ; i++) {
+            pages[i] = i;
+        }
+        return pages;
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
         tourService.delete(id);
