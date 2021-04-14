@@ -37,9 +37,18 @@ public class FlightController {
     public Page<FlightLocation> getAllLocation(Pageable pageable) {
         return flightLocationService.findAll(pageable);
     }
+    @ModelAttribute("pages")
+    public int[] getPages(Pageable pageable) {
+        int totalPages = flightService.findAll(pageable).getTotalPages();
+        int[] pages = new int[totalPages];
+        for (int i = 0; i < totalPages ; i++) {
+            pages[i] = i;
+        }
+        return pages;
+    }
 
     @GetMapping("/ajax")
-    public ResponseEntity<Iterable<Flight>> getAllFlightsAjax(Pageable pageable) {
+    public ResponseEntity<Page<Flight>> getAllFlightsAjax(Pageable pageable) {
         return new ResponseEntity<>(flightService.findAll(pageable), HttpStatus.OK);
     }
     @GetMapping
