@@ -1,53 +1,49 @@
-let start = request.params.start //retrieve start index for data set
-let limit = request.params.limit //retrieve max number of data set size
-
-
-$().ready(function () {
-    $("#add-fromTour").validate({
-        onfocusout: false,
-        onkeyup: false,
-        onclick: false,
-        rules: {
-            "name": {
-                required: true,
-                maxlength: 15
-            },
-            "description": {
-                required: true,
-                maxlength: 30
-            },
-            "price": {
-                required: true,
-                maxlength: 7,
-                min: 0,
-                number: true
-            },
-            "time": {
-                required: true,
-                maxlength: 10
-            }
-        },
-        messages: {
-            "name": {
-                required: " Không được để trống",
-                maxlength: " nhập tối đa 15 ký tự"
-            },
-            "description": {
-                required: " Không được để trống",
-                maxlength: " Nhập Tối đa 30 ký tự"
-            },
-            "price": {
-                required: " Không được để trống",
-                number: " tiền phải là số ",
-                min: "Số Tiền Phải Lớn Hơn Hoặc bằng 0"
-            },
-            "time": {
-                required: "Không Được để Trống ",
-                maxlength: "Nhập Tối đa 10 Ký tự"
-            }
-        }
-    })
-});
+// $().ready(function () {
+//     $("#add-fromTour").validate({
+//         onfocusout: false,
+//         onkeyup: false,
+//         onclick: false,
+//         rules: {
+//             "name": {
+//                 required: true,
+//                 maxlength: 15
+//             },
+//             "description": {
+//                 required: true,
+//                 maxlength: 30
+//             },
+//             "price": {
+//                 required: true,
+//                 maxlength: 7,
+//                 min: 0,
+//                 number: true
+//             },
+//             "time": {
+//                 required: true,
+//                 maxlength: 10
+//             }
+//         },
+//         messages: {
+//             "name": {
+//                 required: " Không được để trống",
+//                 maxlength: " nhập tối đa 15 ký tự"
+//             },
+//             "description": {
+//                 required: " Không được để trống",
+//                 maxlength: " Nhập Tối đa 30 ký tự"
+//             },
+//             "price": {
+//                 required: " Không được để trống",
+//                 number: " tiền phải là số ",
+//                 min: "Số Tiền Phải Lớn Hơn Hoặc bằng 0"
+//             },
+//             "time": {
+//                 required: "Không Được để Trống ",
+//                 maxlength: "Nhập Tối đa 10 Ký tự"
+//             }
+//         }
+//     })
+// });
 
 function addTour() {
     let name = $('#name').val();
