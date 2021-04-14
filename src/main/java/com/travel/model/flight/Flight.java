@@ -14,6 +14,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String code;
     private Date date;
     private Time startTime;
     private Time arriveTime;

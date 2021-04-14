@@ -19,10 +19,16 @@
             font-size: .875rem;
         }
 
-        .feather {
-            width: 16px;
-            height: 16px;
-            vertical-align: text-bottom;
+        li {
+            float: left;
+            width: 25%;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         /*
@@ -66,23 +72,8 @@
             color: #333;
         }
 
-        .sidebar .nav-link .feather {
-            margin-right: 4px;
-            color: #999;
-        }
-
         .sidebar .nav-link.active {
             color: #007bff;
-        }
-
-        .sidebar .nav-link:hover .feather,
-        .sidebar .nav-link.active .feather {
-            color: inherit;
-        }
-
-        .sidebar-heading {
-            font-size: .75rem;
-            text-transform: uppercase;
         }
 
         /*
@@ -128,6 +119,8 @@
             let toLocation = $('#toLocation').val();
             let price = $('#price').val();
             let flightBrand = $('#flightBrand').val();
+            let flightBrandID = flightBrand.slice(0, 1);
+            let flightBrandCode = flightBrand.slice(1);
             let newFlight = {
                 date: date,
                 startTime: startTime,
@@ -140,7 +133,8 @@
                 },
                 price: price,
                 flightBrand: {
-                    id: flightBrand
+                    id: flightBrandID,
+                    code: flightBrandCode
                 }
             };
             $.ajax({
@@ -191,6 +185,7 @@
             date = date.getFullYear() + "-" + month + "-" + date2;
             return `<tr>
                         <td>${flight.id}</td>
+                        <td>${flight.code}</td>
                         <td>${date}</td>
                         <td>${flight.startTime}</td>
                         <td>${flight.arriveTime}</td>
@@ -327,11 +322,12 @@
         function previousPage() {
             let currentPage = parseInt(document.getElementById("currentPage").innerText);
             if (currentPage !== 1) {
-                currentPage-=2;
+                currentPage -= 2;
                 let id = "page" + currentPage;
                 toActivePage(id);
             }
         }
+
         function nextPage() {
             let currentPage = parseInt(document.getElementById("currentPage").innerText);
             let buttons = document.getElementsByClassName("page-item");
@@ -339,11 +335,27 @@
             for (let i = 0; i < buttons.length; i++) {
                 lastPage = buttons[i];
             }
-            let lastPageNumber = parseInt(lastPage.id.slice(4,5));
+            let lastPageNumber = parseInt(lastPage.id.slice(4, 5));
             if (currentPage !== lastPageNumber) {
                 let id = "page" + currentPage;
                 toActivePage(id);
             }
+        }
+
+        function searchFlight() {
+            let search = $("#searchBox").val();
+            $.ajax({
+                url: `/flights/ajax?q=${search}`,
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    let content = "";
+                    for (let i = 0; i < data.content.length; i++) {
+                        content += getFlight(data.content[i]);
+                    }
+                    document.getElementById("flightList").innerHTML = content;
+                }
+            })
         }
     </script>
 </head>
@@ -361,39 +373,40 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="date">Start Date</label>
                         <input type="date" id="date" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTime">Start Time</label>
                         <input type="time" id="startTime" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTime">Arrival Time</label>
                         <input type="time" id="arriveTime" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocation">From Location</label>
                         <select id="fromLocation" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocation">To Location</label>
                         <select id="toLocation" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="price">Price</label>
                         <input type="text" id="price" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrand">Flight Brands</label>
                         <select id="flightBrand" class="form-control">
-                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                            <option th:each="fb:${brands}" th:value="${fb.id} + ${fb.code}"
+                                    th:text="${fb.name}"></option>
                         </select>
                     </div>
                 </form>
@@ -419,37 +432,37 @@
                 <form>
                     <input type="text" id="idEdit" hidden>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="dateEdit">Start Date</label>
                         <input type="date" id="dateEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTimeEdit">Start Time</label>
                         <input type="time" id="startTimeEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTimeEdit">Arrival Time</label>
                         <input type="time" id="arriveTimeEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocationEdit">From Location</label>
                         <select id="fromLocationEdit" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocationEdit">To Location</label>
                         <select id="toLocationEdit" class="form-control">
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="priceEdit">Price</label>
                         <input type="text" id="priceEdit" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrandEdit">Flight Brands</label>
                         <select id="flightBrandEdit" class="form-control">
                             <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
                         </select>
@@ -474,37 +487,37 @@
                 <form>
                     <input type="text" id="idDel" hidden>
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label for="dateDel">Start Date</label>
                         <input type="date" id="dateDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Start Time</label>
+                        <label for="startTimeDel">Start Time</label>
                         <input type="time" id="startTimeDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Arrival Time</label>
+                        <label for="arriveTimeDel">Arrival Time</label>
                         <input type="time" id="arriveTimeDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>From Location</label>
+                        <label for="fromLocationDel">From Location</label>
                         <select id="fromLocationDel" class="form-control" disabled>
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>To Location</label>
+                        <label for="toLocationDel">To Location</label>
                         <select id="toLocationDel" class="form-control" disabled>
                             <option th:each="l:${locations}" th:value="${l.id}"
                                     th:text="${l.name} + '(' + ${l.code} + ')'"></option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label for="priceDel">Price</label>
                         <input type="text" id="priceDel" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Flight Brands</label>
+                        <label for="flightBrandDel">Flight Brands</label>
                         <select id="flightBrandDel" class="form-control" disabled>
                             <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
                         </select>
@@ -526,11 +539,18 @@
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-dark" placeholder="search" aria-label="search" aria-describedby="button-addon">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon">Search</button>
-        </div>
+    <div class="col-md-6">
+        <form>
+            <div class="input-group mb-3">
+                <input style="margin-top: 15px" type="text" class="form-control form-control-dark" placeholder="find by date or location"
+                       aria-label="search" aria-describedby="button-addon" id="searchBox">
+                <div class="input-group-append">
+                    <button style="margin-top: 15px" class="btn btn-outline-secondary" type="button" id="button-addon" onclick="searchFlight()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
@@ -625,6 +645,7 @@
                         <thead>
                         <tr>
                             <th>id</th>
+                            <th>Flight Code</th>
                             <th>Date</th>
                             <th>Start Time</th>
                             <th>Arrive Time</th>
@@ -639,6 +660,7 @@
                         <tbody id="flightList">
                         <tr th:each="f:${flights}">
                             <td th:text="${f.id}"></td>
+                            <td th:text="${f.code}"></td>
                             <td th:text="${f.date}"></td>
                             <td th:text="${f.startTime}"></td>
                             <td th:text="${f.arriveTime}"></td>
