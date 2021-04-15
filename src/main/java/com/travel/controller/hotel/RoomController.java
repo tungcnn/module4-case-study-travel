@@ -46,8 +46,14 @@ public class RoomController {
     }
 
     @GetMapping("/ajax")
-    public ResponseEntity<Page<Room>> allRooms(Pageable pageable){
-    return new ResponseEntity<>(roomService.findAll(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<Room>> allRooms(@RequestParam(required = false) String q, Pageable pageable){
+        Page<Room> rooms;
+        if (q != null) {
+            rooms = roomService.findAllByTypeContaining(q, pageable);
+        } else {
+            rooms = roomService.findAll(pageable);
+        }
+    return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
     @GetMapping

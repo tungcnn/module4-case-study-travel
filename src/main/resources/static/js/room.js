@@ -1,4 +1,4 @@
-function addNewRoom() {
+function addRoom() {
     let hotel = $('#hotel').val();
     let name = $('#name').val();
     let type = $('#type').val();
@@ -37,7 +37,7 @@ function successHandle(currentPage) {
         success: function (data) {
             let room = "";
             for (let i = 0; i < data.content.length; i++) {
-                room += getNewRoom(data.content[i])
+                room += getRoom(data.content[i])
             }
             document.getElementById('rooms').innerHTML = room;
             document.getElementById('hotel').value = "";
@@ -50,7 +50,7 @@ function successHandle(currentPage) {
     });
 }
 
-function getNewRoom(newRoom) {
+function getRoom(newRoom) {
     return `<tr>
                         <td>${newRoom.id}</td>
                         <td>${newRoom.hotel.name}</td>
@@ -162,7 +162,7 @@ function toActivePage(id) {
                 success: function (data) {
                     let room = "";
                     for (let i = 0; i < data.content.length; i++) {
-                        room += getNewRoom(data.content[i])
+                        room += getRoom(data.content[i])
                     }
                     document.getElementById('rooms').innerHTML = room;
                     document.getElementById('hotel').value = "";
@@ -201,6 +201,18 @@ function nextPage() {
     }
 }
 
-function searchBy() {
+function searchByTypeRoom() {
+    let search = $('#idSearch').val();
+    $.ajax ({
+        url: `/rooms/ajax?q=${search}`,
+        type: 'GET',
+        success: function (data) {
+            let content = "";
+            for (let i = 0; i < data.content.length; i++) {
+                content += getRoom(data.content[i]);
+            }
+            document.getElementById('rooms').innerHTML = content;
+        }
+    })
     
 }

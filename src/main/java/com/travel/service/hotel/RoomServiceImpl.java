@@ -34,4 +34,9 @@ public class RoomServiceImpl implements IRoomService {
     public void delete(long id) {
         roomRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Room> findAllByTypeContaining(String type, Pageable pageable) {
+        return roomRepository.findAllByTypeContaining(type, pageable);
+    }
 }
