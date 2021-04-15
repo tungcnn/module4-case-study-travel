@@ -200,3 +200,7 @@ function nextPage() {
         toActivePage(id);
     }
 }
+
+function searchBy() {
+    
+}

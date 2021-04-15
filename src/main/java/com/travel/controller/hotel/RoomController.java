@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @Service
 @RequestMapping("/rooms")
+
 public class RoomController {
 
     @Autowired
