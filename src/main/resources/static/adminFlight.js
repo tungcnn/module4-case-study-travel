@@ -244,3 +244,17 @@ function searchFlight() {
         }
     })
 }
+const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/referral/v1.0/%7Bcountry%7D/%7Bcurrency%7D/%7Blocale%7D/%7Boriginplace%7D/%7Bdestinationplace%7D/%7Boutboundpartialdate%7D/%7Binboundpartialdate%7D?shortapikey=ra66933236979928&apiKey=%7Bra66933236979928%7D",
+    "method": "GET",
+    "headers": {
+        "x-rapidapi-key": "93ff4111e2msh93cd028a11f75d8p1b0ad2jsnaf5d1d94904c",
+        "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+    }
+};
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
