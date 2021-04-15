@@ -45,6 +45,22 @@
 //     })
 // });
 
+function search() {
+    let search = $("#search").val();
+    $.ajax({
+        url: `/tours/list?t=${search}`,
+        type: "GET",
+        success: function (data){
+            console.log(data);
+            let content = "";
+            for (let i = 0; i < data.content.length; i++) {
+                content += getTour(data.content[i]);
+            }
+            document.getElementById("lisTour").innerHTML = content;
+        }
+    });
+}
+
 function addTour() {
     let name = $('#name').val();
     let description = $('#description').val();
@@ -75,8 +91,10 @@ function addTour() {
 }
 
 function successHandler() {
+    let search =$("#search").val();
+    console.log(search);
     $.ajax({
-        url: "/tours/list",
+        url: `/tours/list`,
         type: "GET",
         success: function (data) {
             let content = "";
@@ -192,11 +210,12 @@ function toActivePage(id) {
 function previousPage() {
     let currentPage = parseInt(document.getElementById("currentPage").innerText);
     if (currentPage !== 1) {
-        currentPage-=2;
+        currentPage -= 2;
         let id = "page" + currentPage;
         toActivePage(id);
     }
 }
+
 function nextPage() {
     let currentPage = parseInt(document.getElementById("currentPage").innerText);
     let buttons = document.getElementsByClassName("page-item");
@@ -204,7 +223,7 @@ function nextPage() {
     for (let i = 0; i < buttons.length; i++) {
         lastPage = buttons[i];
     }
-    let lastPageNumber = parseInt(lastPage.id.slice(4,5));
+    let lastPageNumber = parseInt(lastPage.id.slice(4, 5));
     if (currentPage !== lastPageNumber) {
         let id = "page" + currentPage;
         toActivePage(id);

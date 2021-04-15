@@ -39,14 +39,21 @@ public class TourController {
     }
 
     @GetMapping("list")
-    public Page<Tour> showTours(Pageable pageable) {
-        return tourService.findAll(pageable);
+    public ResponseEntity<Page<Tour>> showTours(@RequestParam(required = false) String t, Pageable pageable) {
+        Page<Tour> tour;
+        if (t != null) {
+//        String name = "%" + t + "%";
+            tour = tourService.findByName(t, pageable);
+        } else {
+            tour = tourService.findAll(pageable);
+        }
+        return new ResponseEntity<>(tour, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping()
     public ModelAndView showLisTours(Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("tour/list-tour");
-        modelAndView.addObject("tours", showTours(pageable));
+        modelAndView.addObject("tours", tourService.findAll(pageable));
         return modelAndView;
     }
 
@@ -54,7 +61,7 @@ public class TourController {
     public int[] getPages(Pageable pageable) {
         int totalPages = tourService.findAll(pageable).getTotalPages();
         int[] pages = new int[totalPages];
-        for (int i = 0; i < totalPages ; i++) {
+        for (int i = 0; i < totalPages; i++) {
             pages[i] = i;
         }
         return pages;
