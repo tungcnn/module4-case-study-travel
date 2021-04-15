@@ -3,6 +3,8 @@ package com.travel.service.tour;
 import com.travel.model.tour.Location;
 import com.travel.repository.tour.ILocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,11 @@ public class LocationService implements ILocationService {
     @Override
     public Iterable<Location> findAll() {
         return locationRepository.findAll();
+    }
+
+    @Override
+    public Page<Location> findAll(Pageable pageable) {
+        return null;
     }
 
     @Override

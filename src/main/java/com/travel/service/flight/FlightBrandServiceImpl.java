@@ -3,6 +3,8 @@ package com.travel.service.flight;
 import com.travel.model.flight.FlightBrand;
 import com.travel.repository.flight.IFlightBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,11 @@ public class FlightBrandServiceImpl implements IFlightBrandService{
     @Override
     public Iterable<FlightBrand> findAll() {
         return flightBrandRepository.findAll();
+    }
+
+    @Override
+    public Page<FlightBrand> findAll(Pageable pageable) {
+        return null;
     }
 
     @Override

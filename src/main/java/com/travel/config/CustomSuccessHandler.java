@@ -1,5 +1,6 @@
-package com.travel.securityconfig;
+package com.travel.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -7,7 +8,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,10 +17,12 @@ import java.util.List;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException {
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
@@ -31,6 +33,10 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
+    /*
+     * This method extracts the roles of currently logged-in user and returns
+     * appropriate URL according to his/her role.
+     */
     protected String determineTargetUrl(Authentication authentication) {
         String url = "";
 
@@ -41,16 +47,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         for (GrantedAuthority a : authorities) {
             roles.add(a.getAuthority());
         }
+
         if (isAdmin(roles)) {
-            url = "/dashboard";
+            url = "/admin";
         } else if (isUser(roles)) {
-            url = "/users";
-
-        } else if (isShop(roles)) {
-            url = "/dashboard";
-
+            url = "/user";
         } else {
-            url = "/khongcoquyen";
+            url = "/accessDenied";
         }
 
         return url;
@@ -70,19 +73,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return false;
     }
 
-    private boolean isShop(List<String> roles) {
-        if (roles.contains("ROLE_SHOP")) {
-            return true;
-        }
-        return false;
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
     }
 
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
-    }
-
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
     }
 
 }

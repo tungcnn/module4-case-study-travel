@@ -3,6 +3,8 @@ package com.travel.service.flight;
 import com.travel.model.flight.Flight;
 import com.travel.repository.flight.IFlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,11 @@ public class FlightServiceImpl implements IFlightService{
     @Override
     public Iterable<Flight> findAll() {
         return flightRepository.findAll();
+    }
+
+    @Override
+    public Page<Flight> findAll(Pageable pageable) {
+        return null;
     }
 
     @Override

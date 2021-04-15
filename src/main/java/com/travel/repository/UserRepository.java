@@ -1,8 +1,10 @@
 package com.travel.repository;
 
-import com.travel.model.AppUser;
+import com.travel.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<AppUser, Long> {
-    AppUser findByUsername(String username);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
 }
