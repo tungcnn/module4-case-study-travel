@@ -12,11 +12,12 @@
             integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
             crossorigin="anonymous"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../static/styleTour.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
     <script src="../../static/js/room.js"></script>
 
 </head>
 <body>
+
 <!---------------------------------------------create modal------------------------------------------------------------------->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -61,7 +62,8 @@
         </div>
     </div>
 </div>
-<!--edit modal-->
+
+<!-------------------------------------------edit modal---------------------------------------------------------------->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -108,6 +110,56 @@
     </div>
 </div>
 
+<!------------------------------------------delete modal---------------------------------------------------------------->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delModal">Delete Room</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" id="idDelete" hidden>
+                    <div class="form-group">
+                        <label>Hotel</label>
+                        <select id="hotelDelete" class="form-control">
+                            <option th:each="hotel:${hotels}" th:value="${hotel.id}" th:text="${hotel.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="nameDelete" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <input type="text" id="typeDelete" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="priceDelete" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Slot</label>
+                        <input type="text" id="slotDelete" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Details</label>
+                        <input type="text" id="detailDelete" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" onclick="deleteRoom()" data-dismiss="modal">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!---------------------------------------------navbar------------------------------------------------------------------->
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/flights">Travel Kalo</a>
@@ -122,9 +174,11 @@
         </li>
     </ul>
 </nav>
+
 <!-----------------------------------------------------------body------------------------------------------------------->
 <div class="container-fluid">
     <div class="row">
+
         <!-----------------------------------------------------------sidebar------------------------------------------------------->
         <div class="col-md-2">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -164,53 +218,87 @@
                 </div>
             </nav>
         </div>
+
         <!-----------------------------------------------------------table------------------------------------------------------->
         <div class="col-md-9">
-            <div class="row">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create New
-                    Room
-                </button>
-            </div>
-            <div class="row">
-                <table class="table table-hover table-dark">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Hotel</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>Slot</th>
-                        <th>Details</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody id="rooms">
-                    <th:block th:each="room : ${rooms}">
+            <div class="col-md-10 offset-1">
+                <div class="row">
+                    <h1>ROOMS MANAGEMENT</h1>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                        Create New Room
+                    </button>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p id="p1">On page <span id="currentPage">1</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="Page navigation example" style="float: right">
+                            <ul class="pagination">
+                                <li class="page-item" onclick="previousPage()">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <th:block th:each="page:${pages}">
+                                    <li class="page-item" th:id="'page' + ${page}" onclick="toActivePage(id)">
+                                        <a href="javascript:;" class="page-link" th:text="${page} + 1"></a>
+                                    </li>
+                                </th:block>
+                                <li class="page-item" onclick="nextPage()">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="table table-hover table-dark">
+                        <thead>
                         <tr>
-                            <td th:text="${room.id}"></td>
-                            <td th:text="${room.hotel.name}"></td>
-                            <td th:text="${room.name}"></td>
-                            <td th:text="${room.type}"></td>
-                            <td th:text="${room.price}"></td>
-                            <td th:text="${room.slot}"></td>
-                            <td th:text="${room.detail}"></td>
-                            <td>
-                                <a class="btn btn-primary editRoom" href="/rooms/${room.id}" th:id="${room.id}"
-                                   onclick="showFormEdit(id)"
-                                   data-toggle="modal" data-target="#editModal">Edit</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger deleteRoom" href="/rooms/${room.id}"
-                                   th:id="${room.id}" onclick="deleteRoom(id)">Delete</a>
-                            </td>
+                            <th>Id</th>
+                            <th>Hotel</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Slot</th>
+                            <th>Details</th>
+                            <th colspan="2">Action</th>
                         </tr>
-                    </th:block>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="rooms">
+                        <th:block th:each="room : ${rooms}">
+                            <tr>
+                                <td th:text="${room.id}"></td>
+                                <td th:text="${room.hotel.name}"></td>
+                                <td th:text="${room.name}"></td>
+                                <td th:text="${room.type}"></td>
+                                <td th:text="${room.price}"></td>
+                                <td th:text="${room.slot}"></td>
+                                <td th:text="${room.detail}"></td>
+                                <td>
+                                    <a class="btn btn-primary editRoom" href="/rooms/${room.id}" th:id="${room.id}"
+                                       onclick="showFormEdit(id)"
+                                       data-toggle="modal" data-target="#editModal">Edit</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger deleteRoom" href="/rooms/${room.id}"
+                                       th:id="${room.id}" onclick="showDeleteForm(id)"
+                                       data-toggle="modal" data-target="#deleteModal">Delete</a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
