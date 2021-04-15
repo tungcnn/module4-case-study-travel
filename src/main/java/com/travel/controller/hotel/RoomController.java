@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @Service
 @RequestMapping("/rooms")
+
 public class RoomController {
 
     @Autowired
@@ -35,10 +35,19 @@ public class RoomController {
         return roomService.findAll(pageable);
     }
 
+    @ModelAttribute("pages")
+    public int[] getPages(Pageable pageable) {
+        int totalPages = roomService.findAll(pageable).getTotalPages();
+        int[] pages = new int[totalPages];
+        for (int i = 0; i < totalPages; i++) {
+            pages[i] = i;
+        }
+        return pages;
+    }
+
     @GetMapping("/ajax")
-    public ResponseEntity<Iterable<Room>> allRooms(Pageable pageable){
-    Page<Room> rooms = roomService.findAll(pageable);
-    return new ResponseEntity<>(rooms, HttpStatus.OK);
+    public ResponseEntity<Page<Room>> allRooms(Pageable pageable){
+    return new ResponseEntity<>(roomService.findAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping
@@ -54,13 +63,13 @@ public class RoomController {
         return new ResponseEntity<>(roomService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<Void> addRoom(@RequestBody Room room) {
         roomService.save(room);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping
     public ResponseEntity<Void> editRoom(@RequestBody Room room) {
         roomService.save(room);
         return new ResponseEntity<>(null,HttpStatus.OK);

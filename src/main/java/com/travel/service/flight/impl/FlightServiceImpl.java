@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class FlightServiceImpl implements IFlightService {
     @Autowired
     private IFlightRepository flightRepository;
@@ -31,5 +33,10 @@ public class FlightServiceImpl implements IFlightService {
     @Override
     public void delete(long id) {
         flightRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Flight> search(String string, Pageable pageable) {
+        return flightRepository.findFlightsByCodeContains(string, pageable);
     }
 }
