@@ -45,6 +45,22 @@
 //     })
 // });
 
+function search() {
+    let search = $("#search").val();
+    $.ajax({
+        url: `/tours/list?t=${search}`,
+        type: "GET",
+        success: function (data){
+            console.log(data);
+            let content = "";
+            for (let i = 0; i < data.content.length; i++) {
+                content += getTour(data.content[i]);
+            }
+            document.getElementById("lisTour").innerHTML = content;
+        }
+    });
+}
+
 function addTour() {
     let name = $('#name').val();
     let description = $('#description').val();
@@ -75,8 +91,10 @@ function addTour() {
 }
 
 function successHandler() {
+    let search =$("#search").val();
+    console.log(search);
     $.ajax({
-        url: "/tours/list",
+        url: `/tours/list`,
         type: "GET",
         success: function (data) {
             let content = "";
@@ -169,4 +187,45 @@ function editTour() {
         success: successHandler
     });
     event.preventDefault();
+}
+
+
+function toActivePage(id) {
+    let buttons = document.getElementsByClassName("page-item");
+    for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i].classList.contains("active")) buttons[i].classList.remove("active");
+    }
+    let ele = document.getElementById(id);
+    ele.classList.add("active");
+    let currentPage = document.getElementById("currentPage");
+    let newPage = parseInt(id.slice(4, 5));
+    currentPage.innerText = newPage + 1;
+    $.ajax({
+        url: `/tours/page=${newPage}`,
+        type: "GET",
+        success: successHandler(newPage)
+    })
+}
+
+function previousPage() {
+    let currentPage = parseInt(document.getElementById("currentPage").innerText);
+    if (currentPage !== 1) {
+        currentPage -= 2;
+        let id = "page" + currentPage;
+        toActivePage(id);
+    }
+}
+
+function nextPage() {
+    let currentPage = parseInt(document.getElementById("currentPage").innerText);
+    let buttons = document.getElementsByClassName("page-item");
+    let lastPage;
+    for (let i = 0; i < buttons.length; i++) {
+        lastPage = buttons[i];
+    }
+    let lastPageNumber = parseInt(lastPage.id.slice(4, 5));
+    if (currentPage !== lastPageNumber) {
+        let id = "page" + currentPage;
+        toActivePage(id);
+    }
 }
