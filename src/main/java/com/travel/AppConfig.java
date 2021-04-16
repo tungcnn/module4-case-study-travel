@@ -40,8 +40,12 @@ public class AppConfig {
         List<User> users = (List<User>) userService.findAll();
         if (users.isEmpty()) {
             User admin = new User();
-            admin.setUsername("admin");
+            admin.setUsername("dqa97");
             admin.setPassword(passwordEncoder.encode("123456"));
+            admin.setName("Duong Quoc Anh");
+            admin.setEmail("97.duongquocanh@gmail.com");
+            admin.setPhoneNumber("0944935478");
+            admin.setIdPapers("187605260");
             Role role = new Role();
             role.setId(1L);
             Role roleUser = new Role();
@@ -54,6 +58,10 @@ public class AppConfig {
             User user = new User();
             user.setUsername("admin");
             user.setPassword(passwordEncoder.encode("123456"));
+            admin.setName("Duong Quoc Anh");
+            admin.setEmail("97.duongquocanh@gmail.com");
+            admin.setPhoneNumber("0944935478");
+            admin.setIdPapers("187605260");
             role = new Role();
             role.setId(2L);
             roles1 = new HashSet<>();

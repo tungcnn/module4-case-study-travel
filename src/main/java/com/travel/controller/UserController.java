@@ -8,15 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -29,7 +28,7 @@ public class UserController {
 
     @GetMapping("/register")
     public ModelAndView register(){
-        ModelAndView modelAndView = new ModelAndView("register");
+        ModelAndView modelAndView = new ModelAndView("users/register");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
@@ -37,10 +36,10 @@ public class UserController {
     @PostMapping("/addUser")
     public ModelAndView register(@ModelAttribute("user") User user, BindingResult bindingResult){
         if (bindingResult.hasFieldErrors()){
-            ModelAndView modelAndView = new ModelAndView("register");
+            ModelAndView modelAndView = new ModelAndView("users/register");
             return modelAndView;
         }
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("users/login");
         if (user.getRoles() != null){
             Role role = roleService.findByName("ROLE_ADMIN");
             Set<Role> roles = new HashSet<>();

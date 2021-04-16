@@ -1,5 +1,6 @@
 package com.travel.controller;
 
+
 import com.travel.model.Role;
 import com.travel.model.User;
 import com.travel.service.role.RoleService;
@@ -31,29 +32,30 @@ public class SecurityController {
 
     @GetMapping("/user")
     public String userPage() {
-        return "user";
+        return "users/user";
     }
 
     @GetMapping("/user/home")
     public ModelAndView homeUser() {
-        ModelAndView modelAndView = new ModelAndView("user/home");
+        ModelAndView modelAndView = new ModelAndView("users/user");
         return modelAndView;
     }
 
     @GetMapping("/admin")
     public String adminPage() {
-        return "admin";
+        return "users/admin";
     }
 
     @GetMapping("/")
     public String homePage() {
-        return "redirect:/login";
+        return "users/login";
     }
 
     @GetMapping("/accessDenied")
-    public String accessDanied() {
-        return "access-danied";
+    public String accessDenied() {
+        return "users/access-denied";
     }
+
 
     @PostMapping("/api/register")
     public ResponseEntity<User> create(@RequestBody User user, BindingResult bindingResult) {
@@ -81,4 +83,5 @@ public class SecurityController {
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
 }
