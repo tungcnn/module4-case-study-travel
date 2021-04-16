@@ -42,7 +42,6 @@ public class TourController {
     public ResponseEntity<Page<Tour>> showTours(@RequestParam(required = false) String t, Pageable pageable) {
         Page<Tour> tour;
         if (t != null) {
-//        String name = "%" + t + "%";
             tour = tourService.findByName(t, pageable);
         } else {
             tour = tourService.findAll(pageable);
