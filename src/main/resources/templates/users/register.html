@@ -1,0 +1,45 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+
+<form th:action="@{/user/addUser}" method="post" th:object="${user}">
+    <input type="hidden" th:field="*{id}">
+    <div>
+        <label>Username</label>
+        <input type="text" th:field="*{username}">
+        <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+    </div>
+    <div>
+        <label>Password</label>
+        <input type="text" th:field="*{password}">
+        <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+    </div>
+    <div>
+        <label>Name</label>
+        <input type="text" th:field="*{name}">
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="text" th:field="*{email}">
+    </div>
+    <div>
+        <label>Phone Number</label>
+        <input type="text" th:field="*{phoneNumber}">
+    </div>
+    <div>
+        <label>Identity Papers</label>
+        <input type="text" th:field="*{idPapers}">
+    </div>
+
+    <input type="submit" value="register">
+</form>
+</body>
+</html>
