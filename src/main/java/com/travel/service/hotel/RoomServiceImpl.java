@@ -1,6 +1,5 @@
 package com.travel.service.hotel;
 
-import com.travel.model.hotel.Hotel;
 import com.travel.model.hotel.Room;
 import com.travel.repository.hotel.IRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
