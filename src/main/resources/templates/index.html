@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!-- META DATA -->
@@ -438,7 +438,7 @@
                                 </div><!--/.tab-para-->
 
                             </div><!--/.tabpannel-->
-
+<!---------------------------------------------------FLIGHT SEARCH-------------------------------------------------------------->
                             <div role="tabpanel" class="tab-pane fade in" id="flights">
                                 <div class="tab-para">
                                     <div class="trip-circle">
@@ -467,19 +467,13 @@
 
                                                 <div class="travel-select-icon">
                                                     <select class="form-control ">
-
                                                         <option value="default">enter your location</option>
                                                         <!-- /.option-->
-
-                                                        <option value="turkey">turkey</option><!-- /.option-->
-
-                                                        <option value="russia">russia</option><!-- /.option-->
-                                                        <option value="egept">egypt</option><!-- /.option-->
-
+                                                        <option th:each="fl: ${flightlocations}" th:text="'(' + ${fl.code} + ')' + ${fl.name}"></option>
                                                     </select><!-- /.select-->
                                                 </div><!-- /.travel-select-icon -->
                                             </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
+                                        </div><!--/.from location-->
 
                                         <div class="col-lg-2 col-md-3 col-sm-4">
                                             <div class="single-tab-select-box">
@@ -492,7 +486,7 @@
                                                     </form>
                                                 </div><!-- /.travel-check-icon -->
                                             </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
+                                        </div><!--/.departure date-->
 
                                         <div class="col-lg-2 col-md-3 col-sm-4">
                                             <div class="single-tab-select-box">
@@ -504,7 +498,7 @@
                                                     </form>
                                                 </div><!-- /.travel-check-icon -->
                                             </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
+                                        </div><!--/.return date-->
 
                                         <div class="col-lg-2 col-md-1 col-sm-4">
                                             <div class="single-tab-select-box">
@@ -597,7 +591,7 @@
                                 </div>
 
                             </div><!--/.tabpannel-->
-
+<!---------------------------------------------------FLIGHT SEARCH END-------------------------------------------------------------->
                         </div><!--/.tab content-->
                     </div><!--/.desc-tabs-->
                 </div><!--/.single-travel-box-->
