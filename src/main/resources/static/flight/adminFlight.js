@@ -80,6 +80,7 @@ function getFlight(flight) {
                         <td>${flight.toLocation.name}</td>
                         <td>${flight.price}</td>
                         <td>${flight.flightBrand.name}</td>
+                        <td>${flight.seat}</td>
                         <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showEditModal(id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a></td>
                         <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showDeleteModal(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
                     </tr>`

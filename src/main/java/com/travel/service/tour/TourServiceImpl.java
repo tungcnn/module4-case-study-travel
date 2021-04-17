@@ -22,7 +22,6 @@ public class TourServiceImpl implements ITourService {
     public Page<Tour> findAll(Pageable pageable) {
         return tourRepository.findAll(pageable);
     }
-
     @Override
     public Tour findById(long id) {
         return tourRepository.findById(id).get();

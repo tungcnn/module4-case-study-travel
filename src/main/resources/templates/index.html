@@ -438,160 +438,137 @@
                                 </div><!--/.tab-para-->
 
                             </div><!--/.tabpannel-->
-<!---------------------------------------------------FLIGHT SEARCH-------------------------------------------------------------->
+                            <!---------------------------------------------------FLIGHT SEARCH-------------------------------------------------------------->
                             <div role="tabpanel" class="tab-pane fade in" id="flights">
                                 <div class="tab-para">
-                                    <div class="trip-circle">
-                                        <div class="single-trip-circle">
-                                            <input type="radio" id="radio01" name="radio"/>
-                                            <label for="radio01">
+                                    <form action="/flights/users/search" method="post">
+                                        <div class="trip-circle">
+                                            <div class="single-trip-circle">
+                                                <input type="radio" id="radio01" name="radio" value="round"/>
+                                                <label for="radio01">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
   														</span>round trip
-                                            </label>
-                                        </div><!--/.single-trip-circle-->
-                                        <div class="single-trip-circle">
-                                            <input type="radio" id="radio02" name="radio"/>
-                                            <label for="radio02">
+                                                </label>
+                                            </div><!--/.single-trip-circle-->
+                                            <div class="single-trip-circle">
+                                                <input type="radio" id="radio02" name="radio" value="one"/>
+                                                <label for="radio02">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
-  														</span>on way
-                                            </label>
-                                        </div><!--/.single-trip-circle-->
-                                    </div><!--/.trip-circle-->
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-12">
-                                            <div class="single-tab-select-box">
+  														</span>one way
+                                                </label>
+                                            </div><!--/.single-trip-circle-->
+                                        </div><!--/.trip-circle-->
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
 
-                                                <h2>from</h2>
+                                                    <h2>from</h2>
 
-                                                <div class="travel-select-icon">
-                                                    <select class="form-control ">
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control" name="fromLocation">
                                                         <option value="default">enter your location</option>
                                                         <!-- /.option-->
-                                                        <option th:each="fl: ${flightlocations}" th:text="'(' + ${fl.code} + ')' + ${fl.name}"></option>
+                                                        <option th:each="fl: ${flightlocations}"
+                                                                th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.code}"></option>
                                                     </select><!-- /.select-->
-                                                </div><!-- /.travel-select-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.from location-->
+                                                    </div><!-- /.travel-select-icon -->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.from location-->
 
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <div class="single-tab-select-box">
-                                                <h2>departure</h2>
-                                                <div class="travel-check-icon">
-                                                    <form action="#">
+                                            <div class="col-lg-2 col-md-3 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>departure</h2>
+                                                    <div class="travel-check-icon">
                                                         <input type="text" name="departure" class="form-control"
                                                                data-toggle="datepicker"
                                                                placeholder="12 -01 - 2017 ">
-                                                    </form>
-                                                </div><!-- /.travel-check-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.departure date-->
+                                                    </div><!-- /.travel-check-icon -->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.departure date-->
 
-                                        <div class="col-lg-2 col-md-3 col-sm-4">
-                                            <div class="single-tab-select-box">
-                                                <h2>return</h2>
-                                                <div class="travel-check-icon">
-                                                    <form action="#">
+                                            <div class="col-lg-2 col-md-3 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>return</h2>
+                                                    <div class="travel-check-icon">
                                                         <input type="text" name="return" class="form-control"
-                                                               data-toggle="datepicker" placeholder="22 -01 - 2017 ">
-                                                    </form>
-                                                </div><!-- /.travel-check-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.return date-->
+                                                               data-toggle="datepicker"
+                                                               placeholder="22 -01 - 2017 ">
+                                                    </div><!-- /.travel-check-icon -->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.return date-->
 
-                                        <div class="col-lg-2 col-md-1 col-sm-4">
-                                            <div class="single-tab-select-box">
-                                                <h2>adults</h2>
-                                                <div class="travel-select-icon">
-                                                    <select class="form-control ">
+                                            <div class="col-lg-2 col-md-1 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>adults</h2>
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control" name="adult">
 
-                                                        <option value="default">5</option><!-- /.option-->
+                                                            <option value="default">5</option><!-- /.option-->
 
-                                                        <option value="10">10</option><!-- /.option-->
+                                                            <option value="10">10</option><!-- /.option-->
 
-                                                        <option value="15">15</option><!-- /.option-->
-                                                        <option value="20">20</option><!-- /.option-->
+                                                            <option value="15">15</option><!-- /.option-->
+                                                            <option value="20">20</option><!-- /.option-->
 
-                                                    </select><!-- /.select-->
-                                                </div><!-- /.travel-select-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
+                                                        </select><!-- /.select-->
+                                                    </div><!-- /.travel-select-icon -->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.col-->
 
-                                        <div class="col-lg-2 col-md-1 col-sm-4">
-                                            <div class="single-tab-select-box">
-                                                <h2>childs</h2>
-                                                <div class="travel-select-icon">
-                                                    <select class="form-control ">
+                                            <div class="col-lg-2 col-md-1 col-sm-4">
+                                                <div class="single-tab-select-box">
+                                                    <h2>childs</h2>
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control" name="child">
 
-                                                        <option value="default">1</option><!-- /.option-->
+                                                            <option value="default">1</option><!-- /.option-->
 
-                                                        <option value="2">2</option><!-- /.option-->
+                                                            <option value="2">2</option><!-- /.option-->
 
-                                                        <option value="4">4</option><!-- /.option-->
-                                                        <option value="8">8</option><!-- /.option-->
+                                                            <option value="4">4</option><!-- /.option-->
+                                                            <option value="8">8</option><!-- /.option-->
 
-                                                    </select><!-- /.select-->
-                                                </div><!-- /.travel-select-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
+                                                        </select><!-- /.select-->
+                                                    </div><!-- /.travel-select-icon -->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.Children-->
 
-                                    </div><!--/.row-->
+                                        </div><!--/.row-->
 
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-12">
-                                            <div class="single-tab-select-box">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                                <div class="single-tab-select-box">
 
-                                                <h2>to</h2>
+                                                    <h2>to</h2>
 
-                                                <div class="travel-select-icon">
-                                                    <select class="form-control ">
+                                                    <div class="travel-select-icon">
+                                                        <select class="form-control" name="toLocation">
 
-                                                        <option value="default">enter your destination location</option>
-                                                        <!-- /.option-->
+                                                            <option value="default">enter your destination location</option>
+                                                            <!-- /.option-->
+                                                            <option th:each="fl: ${flightlocations}"
+                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.code}"></option>
 
-                                                        <option value="istambul">istambul</option><!-- /.option-->
+                                                        </select><!-- /.select-->
+                                                    </div><!-- /.travel-select-icon -->
 
-                                                        <option value="mosko">mosko</option><!-- /.option-->
-                                                        <option value="cairo">cairo</option><!-- /.option-->
+                                                </div><!--/.single-tab-select-box-->
+                                            </div><!--/.destination location-->
+                                            <div class="clo-sm-5">
+                                                <div class="about-btn pull-right">
+                                                    <button class="about-view travel-btn" type="submit">
+                                                        search
+                                                    </button><!--/.travel-btn-->
+                                                </div><!--/.about-btn-->
+                                            </div><!--/.col-->
 
-                                                    </select><!-- /.select-->
-                                                </div><!-- /.travel-select-icon -->
-
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
-                                        <div class="col-lg-3 col-md-3 col-sm-4">
-                                            <div class="single-tab-select-box">
-
-                                                <h2>class</h2>
-                                                <div class="travel-select-icon">
-                                                    <select class="form-control ">
-
-                                                        <option value="default">enter class</option><!-- /.option-->
-
-                                                        <option value="A">A</option><!-- /.option-->
-
-                                                        <option value="B">B</option><!-- /.option-->
-                                                        <option value="C">C</option><!-- /.option-->
-
-                                                    </select><!-- /.select-->
-                                                </div><!-- /.travel-select-icon -->
-                                            </div><!--/.single-tab-select-box-->
-                                        </div><!--/.col-->
-                                        <div class="clo-sm-5">
-                                            <div class="about-btn pull-right">
-                                                <button class="about-view travel-btn">
-                                                    search
-                                                </button><!--/.travel-btn-->
-                                            </div><!--/.about-btn-->
-                                        </div><!--/.col-->
-
-                                    </div><!--/.row-->
-
+                                        </div><!--/.row-->
+                                    </form>
                                 </div>
-
                             </div><!--/.tabpannel-->
-<!---------------------------------------------------FLIGHT SEARCH END-------------------------------------------------------------->
+                            <!---------------------------------------------------FLIGHT SEARCH END-------------------------------------------------------------->
                         </div><!--/.tab content-->
                     </div><!--/.desc-tabs-->
                 </div><!--/.single-travel-box-->
