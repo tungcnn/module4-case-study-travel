@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+
 @Service
 @Transactional
 public class FlightServiceImpl implements IFlightService {
@@ -38,5 +40,10 @@ public class FlightServiceImpl implements IFlightService {
     @Override
     public Page<Flight> search(String string, Pageable pageable) {
         return flightRepository.findFlightsByCodeContains(string, pageable);
+    }
+
+    @Override
+    public Iterable<Flight> searchFlightOnUser(long flightLocation, long flightLocation1, Date date, int seat, int limit, int offset) {
+        return flightRepository.searchFlight(flightLocation, flightLocation1, date, seat, limit, offset);
     }
 }

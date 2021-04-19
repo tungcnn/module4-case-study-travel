@@ -195,6 +195,14 @@ $(document).ready(function(){
         });
         
 
-});	
+});
+function toggleReturnDateInputOn() {
+    var x = document.getElementById("returnDate");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 
 	

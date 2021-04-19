@@ -441,10 +441,10 @@
                             <!---------------------------------------------------FLIGHT SEARCH-------------------------------------------------------------->
                             <div role="tabpanel" class="tab-pane fade in" id="flights">
                                 <div class="tab-para">
-                                    <form action="/flights/users/search" method="post">
+                                    <form action="/flights/users/search">
                                         <div class="trip-circle">
                                             <div class="single-trip-circle">
-                                                <input type="radio" id="radio01" name="radio" value="round"/>
+                                                <input type="radio" id="radio01" name="radio" value="round" checked onclick="toggleReturnDateInputOn()"/>
                                                 <label for="radio01">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
@@ -452,7 +452,7 @@
                                                 </label>
                                             </div><!--/.single-trip-circle-->
                                             <div class="single-trip-circle">
-                                                <input type="radio" id="radio02" name="radio" value="one"/>
+                                                <input type="radio" id="radio02" name="radio" value="one" onclick="toggleReturnDateInputOn()"/>
                                                 <label for="radio02">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
@@ -471,7 +471,7 @@
                                                         <option value="default">enter your location</option>
                                                         <!-- /.option-->
                                                         <option th:each="fl: ${flightlocations}"
-                                                                th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.code}"></option>
+                                                                th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.id}"></option>
                                                     </select><!-- /.select-->
                                                     </div><!-- /.travel-select-icon -->
                                                 </div><!--/.single-tab-select-box-->
@@ -481,20 +481,16 @@
                                                 <div class="single-tab-select-box">
                                                     <h2>departure</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="text" name="departure" class="form-control"
-                                                               data-toggle="datepicker"
-                                                               placeholder="12 -01 - 2017 ">
+                                                        <input type="date" name="departure" class="form-control">
                                                     </div><!-- /.travel-check-icon -->
                                                 </div><!--/.single-tab-select-box-->
                                             </div><!--/.departure date-->
 
                                             <div class="col-lg-2 col-md-3 col-sm-4">
-                                                <div class="single-tab-select-box">
+                                                <div class="single-tab-select-box" id="returnDate">
                                                     <h2>return</h2>
                                                     <div class="travel-check-icon">
-                                                        <input type="text" name="return" class="form-control"
-                                                               data-toggle="datepicker"
-                                                               placeholder="22 -01 - 2017 ">
+                                                        <input type="date" name="return" class="form-control">
                                                     </div><!-- /.travel-check-icon -->
                                                 </div><!--/.single-tab-select-box-->
                                             </div><!--/.return date-->
@@ -505,7 +501,7 @@
                                                     <div class="travel-select-icon">
                                                         <select class="form-control" name="adult">
 
-                                                            <option value="default">5</option><!-- /.option-->
+                                                            <option value="5">5</option><!-- /.option-->
 
                                                             <option value="10">10</option><!-- /.option-->
 
@@ -523,7 +519,7 @@
                                                     <div class="travel-select-icon">
                                                         <select class="form-control" name="child">
 
-                                                            <option value="default">1</option><!-- /.option-->
+                                                            <option value="1">1</option><!-- /.option-->
 
                                                             <option value="2">2</option><!-- /.option-->
 
@@ -549,7 +545,7 @@
                                                             <option value="default">enter your destination location</option>
                                                             <!-- /.option-->
                                                             <option th:each="fl: ${flightlocations}"
-                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.code}"></option>
+                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.id}"></option>
 
                                                         </select><!-- /.select-->
                                                     </div><!-- /.travel-select-icon -->
