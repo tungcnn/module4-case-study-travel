@@ -46,11 +46,6 @@ public class SecurityController {
         return "users/admin";
     }
 
-    @GetMapping("/")
-    public String homePage() {
-        return "users/login";
-    }
-
     @GetMapping("/accessDenied")
     public String accessDenied() {
         return "users/access-denied";

@@ -1,6 +1,6 @@
 package com.travel.model.flight;
 
-import com.travel.model.AppUser;
+import com.travel.model.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,5 +14,5 @@ public class FlightBooking {
     @ManyToOne
     private Flight flight;
     @ManyToOne
-    private AppUser appUser;
+    private User User;
 }

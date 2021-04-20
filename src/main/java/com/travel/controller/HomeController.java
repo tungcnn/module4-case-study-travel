@@ -18,8 +18,8 @@ public class HomeController {
     public Page<FlightLocation> getAllFlightLocation(Pageable pageable) {
         return flightLocationService.findAll(pageable);
     }
-    @GetMapping
+    @GetMapping("/")
     public ModelAndView getLandingPage() {
-        return new ModelAndView("index");
+        return new ModelAndView("/users/index");
     }
 }

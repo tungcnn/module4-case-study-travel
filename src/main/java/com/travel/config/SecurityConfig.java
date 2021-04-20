@@ -34,11 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests().antMatchers("/", "/login").permitAll()
-                .antMatchers("/user").access("hasRole('ROLE_USER')")
-                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/user/**").access("hasRole('ROLE_USER')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin().successHandler(customSuccessHandler).
         and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .and().exceptionHandling().accessDeniedPage("/accessDenied");
+        http.csrf().disable();
+        http.cors().disable();
     }
 
 }
