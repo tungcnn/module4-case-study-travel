@@ -31,7 +31,7 @@ function addFlight() {
         },
         type: "POST",
         data: JSON.stringify(newFlight),
-        url: "/flights",
+        url: "admin/flights",
         success: successHandler
     });
     event.preventDefault();
@@ -40,7 +40,7 @@ function addFlight() {
 function successHandler(currentPage) {
     $.ajax({
         type: "GET",
-        url: `/flights/ajax?page=${currentPage}`,
+        url: `admin/flights/ajax?page=${currentPage}`,
         success: function (data) {
             console.log(data);
             let content = "";
@@ -71,25 +71,25 @@ function getFlight(flight) {
     }
     date = date.getFullYear() + "-" + month + "-" + date2;
     return `<tr>
-                        <td>${flight.id}</td>
-                        <td>${flight.code}</td>
-                        <td>${date}</td>
-                        <td>${flight.startTime}</td>
-                        <td>${flight.arriveTime}</td>
-                        <td>${flight.fromLocation.name}</td>
-                        <td>${flight.toLocation.name}</td>
-                        <td>${flight.price}</td>
-                        <td>${flight.flightBrand.name}</td>
-                        <td>${flight.seat}</td>
-                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showEditModal(id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a></td>
-                        <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showDeleteModal(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
-                    </tr>`
+                <td>${flight.id}</td>
+                <td>${flight.code}</td>
+                <td>${date}</td>
+                <td>${flight.startTime}</td>
+                <td>${flight.arriveTime}</td>
+                <td>${flight.fromLocation.name}</td>
+                <td>${flight.toLocation.name}</td>
+                <td>${flight.price}</td>
+                <td>${flight.flightBrand.name}</td>
+                <td>${flight.seat}</td>
+                <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showEditModal(id)" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a></td>
+                <td><a id="${flight.id}" href="/flights/${flight.id}}" onclick="showDeleteModal(id)" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
+             </tr>`
 }
 
 function showEditModal(id) {
     $.ajax({
         type: "GET",
-        url: `/flights/${id}`,
+        url: `admin/flights/${id}`,
         success: function (data) {
             let date = new Date(data.date);
             let month = date.getMonth() + 1;
@@ -145,7 +145,7 @@ function editFlight() {
         },
         type: "PUT",
         data: JSON.stringify(newFlight),
-        url: `/flights`,
+        url: `admin/flights`,
         success: successHandler
     });
     event.preventDefault();
@@ -154,7 +154,7 @@ function editFlight() {
 function showDeleteModal(id) {
     $.ajax({
         type: "GET",
-        url: `/flights/${id}`,
+        url: `admin/flights/${id}`,
         success: function (data) {
             let date = new Date(data.date);
             let month = date.getMonth() + 1;
@@ -181,7 +181,7 @@ function showDeleteModal(id) {
 function deleteFlight() {
     let id = document.getElementById("idDel").value;
     $.ajax({
-        url: `/flights/${id}`,
+        url: `admin/flights/${id}`,
         type: "DELETE",
         success: function () {
             document.getElementById(id).parentElement.parentElement.remove();
@@ -201,7 +201,7 @@ function toActivePage(id) {
     let newPage = parseInt(id.slice(4, 5));
     currentPage.innerText = newPage + 1;
     $.ajax({
-        url: `/flights/ajax?page=${newPage}`,
+        url: `admin/flights/ajax?page=${newPage}`,
         type: "GET",
         success: successHandler(newPage)
     })
@@ -233,7 +233,7 @@ function nextPage() {
 function searchFlight() {
     let search = $("#searchBox").val();
     $.ajax({
-        url: `/flights/ajax?q=${search}`,
+        url: `admin/flights/ajax?q=${search}`,
         type: "GET",
         success: function (data) {
             console.log(data);
