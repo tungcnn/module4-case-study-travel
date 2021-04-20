@@ -1,6 +1,5 @@
 package com.travel.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -49,9 +48,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
 
         if (isAdmin(roles)) {
-            url = "/admin";
+            url = "/admin/flights";
         } else if (isUser(roles)) {
-            url = "/user";
+            url = "/";
         } else {
             url = "/accessDenied";
         }
