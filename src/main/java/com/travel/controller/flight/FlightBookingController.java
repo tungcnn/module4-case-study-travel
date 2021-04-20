@@ -14,7 +14,7 @@ import java.sql.Date;
 
 @RestController
 @RequestMapping("/flights/users/")
-public class FlightUserController {
+public class FlightBookingController {
     @Autowired
     private IFlightService flightService;
     @GetMapping("/search")
@@ -35,7 +35,7 @@ public class FlightUserController {
         int limit = pageable.getPageSize();
         int offset = pageable.getPageNumber()*limit;
 
-        ModelAndView modelAndView = new ModelAndView("/");
+        ModelAndView modelAndView = new ModelAndView("/user/flight-result");
         Iterable<Flight> flights = flightService.searchFlightOnUser(fromID, toID, date1, total, limit, offset);
         modelAndView.addObject("flights", flights);
         if (radio.equals("round")) {
