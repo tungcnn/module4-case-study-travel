@@ -15,9 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-
 @RestController
+@RequestMapping("/admin")
 public class FlightController {
     @Autowired
     private IFlightBrandService flightBrandService;

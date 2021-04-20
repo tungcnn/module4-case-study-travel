@@ -1,11 +1,10 @@
 package com.travel.model.flight;
 
 import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flight")
@@ -25,4 +24,9 @@ public class Flight {
     private double price;
     @ManyToOne
     private FlightBrand flightBrand;
+    private int seat = 140;
+
+    public void bookSeat(int seat) {
+        this.seat -= seat;
+    }
 }

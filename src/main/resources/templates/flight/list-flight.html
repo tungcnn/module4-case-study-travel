@@ -251,6 +251,7 @@
                             <th>To Location</th>
                             <th>Price</th>
                             <th>Brand</th>
+                            <th>Seats Left</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -266,12 +267,13 @@
                             <td th:text="${f.toLocation.name}"></td>
                             <td th:text="${f.price}"></td>
                             <td th:text="${f.flightBrand.name}"></td>
+                            <td th:text="${f.seat}"></td>
                             <td>
-                                <a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="showEditModal(id)"
+                                <a th:id="${f.id}" th:href="@{admin/flights/__${f.id}__}" onclick="showEditModal(id)"
                                    class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a>
                             </td>
                             <td>
-                                <a th:id="${f.id}" th:href="@{/flights/__${f.id}__}" onclick="showDeleteModal(id)"
+                                <a th:id="${f.id}" th:href="@{admin/flights/__${f.id}__}" onclick="showDeleteModal(id)"
                                    data-toggle="modal" data-target="#deleteModal"
                                    class="btn btn-danger">Delete</a>
                             </td>
