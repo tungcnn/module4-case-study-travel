@@ -2,7 +2,7 @@
 function search() {
     let search = $("#search").val();
     $.ajax({
-        url: `/tours/list?t=${search}`,
+        url: `/admin/tours/list?t=${search}`,
         type: "GET",
         success: function (data){
             console.log(data);
@@ -37,7 +37,7 @@ function addTour() {
         },
         type: "POST",
         data: JSON.stringify(newTour),
-        url: "/tours/save",
+        url: "/admin/tours/save",
         success: successHandler
 
     });
@@ -46,7 +46,7 @@ function addTour() {
 
 function successHandler() {
     $.ajax({
-        url: `/tours/list`,
+        url: `/admin/tours/list`,
         type: "GET",
         success: function (data) {
             let content = "";
@@ -76,7 +76,7 @@ function getTour(tour) {
 
 function showDelete(id) {
     $.ajax({
-        url: `/tours/find/${id}`,
+        url: `/admin/tours/find/${id}`,
         type: "GET",
         success: function (data) {
             document.getElementById("iddelete").value = data.id;
@@ -88,7 +88,7 @@ function showDelete(id) {
 function deleteTour() {
     let iddelte = $('#iddelete').val();
     $.ajax({
-        url: `tours/delete/${iddelte}`,
+        url: `/admin/tours/delete/${iddelte}`,
         type: "DELETE",
         success: function () {
             document.getElementById(iddelte).parentElement.parentElement.remove()
@@ -100,7 +100,7 @@ function deleteTour() {
 
 function ShowEditTour(id) {
     $.ajax({
-        url: "/tours/find/" + id,
+        url: "/admin/tours/find/" + id,
         type: "GET",
         success: function (data) {
             document.getElementById("ids").value = data.id;
@@ -135,7 +135,7 @@ function editTour() {
         },
         type: "PUT",
         data: JSON.stringify(editTours),
-        url: `/tours`,
+        url: `/admin/tours`,
         success: successHandler
     });
     event.preventDefault();
@@ -153,7 +153,7 @@ function toActivePage(id) {
     let newPage = parseInt(id.slice(4, 5));
     currentPage.innerText = newPage + 1;
     $.ajax({
-        url: `/tours/page=${newPage}`,
+        url: `/admin/tours/page=${newPage}`,
         type: "GET",
         success: successHandler(newPage)
     })

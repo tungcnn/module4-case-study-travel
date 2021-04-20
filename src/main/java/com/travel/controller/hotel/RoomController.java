@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @Service
-@RequestMapping("/rooms")
+@RequestMapping("/admin/rooms")
 
 public class RoomController {
 

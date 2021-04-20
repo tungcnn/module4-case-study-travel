@@ -23,7 +23,7 @@ function addRoom() {
         type: "POST",
         data: JSON.stringify(newRoom),
 
-        url: "/rooms",
+        url: "/admin/rooms",
 
         success: successHandle
     });
@@ -33,7 +33,7 @@ function addRoom() {
 function successHandle(currentPage) {
     $.ajax({
         type: "GET",
-        url: `/rooms/ajax?page=${currentPage}`,
+        url: `/admin/rooms/ajax?page=${currentPage}`,
         success: function (data) {
             let room = "";
             for (let i = 0; i < data.content.length; i++) {
@@ -59,15 +59,15 @@ function getRoom(newRoom) {
                         <td>${newRoom.price}</td>
                         <td>${newRoom.slot}</td>
                         <td>${newRoom.detail}</td>
-                        <td><a class="btn btn-primary editRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="showFormEdit(id)" data-toggle="modal" data-target="#editModal">Edit</a></td>
-                        <td><a class="btn btn-danger deleteRoom" href="/rooms/${newRoom.id}" id="${newRoom.id}" onclick="deleteRoom(id)">Delete</a></td>
+                        <td><a class="btn btn-primary editRoom" id="${newRoom.id}" onclick="showFormEdit(id)" data-toggle="modal" data-target="#editModal">Edit</a></td>
+                        <td><a class="btn btn-danger deleteRoom" id="${newRoom.id}" onclick="showDeleteForm(id)" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
                     </tr>`;
 }
 
 function showFormEdit(id) {
     $.ajax({
         type: "GET",
-        url: `/rooms/${id}`,
+        url: `/admin/rooms/${id}`,
         success: function (data) {
             document.getElementById('idEdit').value = data.id;
             document.getElementById('hotelEdit').value = data.hotel.id;
@@ -104,10 +104,10 @@ function editRoom() {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        type: "POST",
+        type: "PUT",
         data: JSON.stringify(newRoom),
 
-        url: "/rooms",
+        url: "/admin/rooms",
 
         success: successHandle
     });
@@ -117,7 +117,7 @@ function editRoom() {
 function showDeleteForm(id) {
     $.ajax({
         type: "GET",
-        url: `/rooms/${id}`,
+        url: `/admin/rooms/${id}`,
         success: function (data) {
             document.getElementById('idDelete').value = data.id;
             document.getElementById('hotelDelete').value = data.hotel.id;
@@ -133,7 +133,7 @@ function showDeleteForm(id) {
 function deleteRoom() {
     let id = document.getElementById('idDelete').value;
     $.ajax({
-        url: `/rooms/${id}`,
+        url: `/admin/rooms/${id}`,
         type: "DELETE",
         success: function () {
             document.getElementById(id).parentElement.parentElement.remove();
@@ -153,12 +153,12 @@ function toActivePage(id) {
     let newPage = parseInt(id.slice(4, 5));
     currentPage.innerText = newPage + 1;
     $.ajax({
-        url: `/rooms/ajax?page=${newPage}`,
+        url: `/admin/rooms/ajax?page=${newPage}`,
         type: "GET",
         success: function successHandle() {
             $.ajax({
                 type: "GET",
-                url: `/rooms/ajax?page=${newPage}`,
+                url: `/admin/rooms/ajax?page=${newPage}`,
                 success: function (data) {
                     let room = "";
                     for (let i = 0; i < data.content.length; i++) {
@@ -204,7 +204,7 @@ function nextPage() {
 function searchByTypeRoom() {
     let search = $('#idSearch').val();
     $.ajax ({
-        url: `/rooms/ajax?q=${search}`,
+        url: `/admin/rooms/ajax?q=${search}`,
         type: 'GET',
         success: function (data) {
             let content = "";

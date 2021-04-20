@@ -113,29 +113,29 @@
                     <input type="text" id="idDelete" hidden>
                     <div class="form-group">
                         <label>Hotel</label>
-                        <select id="hotelDelete" class="form-control">
+                        <select id="hotelDelete" class="form-control" disabled>
                             <option th:each="hotel:${hotels}" th:value="${hotel.id}" th:text="${hotel.name}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" id="nameDelete" class="form-control">
+                        <input type="text" id="nameDelete" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>Type</label>
-                        <input type="text" id="typeDelete" class="form-control">
+                        <input type="text" id="typeDelete" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input type="text" id="priceDelete" class="form-control">
+                        <input type="text" id="priceDelete" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>Slot</label>
-                        <input type="text" id="slotDelete" class="form-control">
+                        <input type="text" id="slotDelete" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>Details</label>
-                        <input type="text" id="detailDelete" class="form-control">
+                        <input type="text" id="detailDelete" class="form-control" disabled>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -232,12 +232,12 @@
                                 <td th:text="${room.slot}"></td>
                                 <td th:text="${room.detail}"></td>
                                 <td>
-                                    <a class="btn btn-primary editRoom" href="/rooms/${room.id}" th:id="${room.id}"
+                                    <a class="btn btn-primary editRoom" href="javascript:;" th:id="${room.id}"
                                        onclick="showFormEdit(id)"
                                        data-toggle="modal" data-target="#editModal">Edit</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger deleteRoom" href="/rooms/${room.id}"
+                                    <a class="btn btn-danger deleteRoom" href="javascript:;"
                                        th:id="${room.id}" onclick="showDeleteForm(id)"
                                        data-toggle="modal" data-target="#deleteModal">Delete</a>
                                 </td>
@@ -249,5 +249,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

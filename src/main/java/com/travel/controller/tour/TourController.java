@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("tours")
+@RequestMapping("/admin/tours")
 public class TourController {
     private final LocationService locationService;
 

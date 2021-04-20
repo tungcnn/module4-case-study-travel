@@ -51,19 +51,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/flights">
+                            <a class="nav-link" href="/admin/flights">
                                 <span data-feather="file"></span>
                                 Flights
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/tours">
+                            <a class="nav-link" href="/admin/tours">
                                 <span data-feather="shopping-cart"></span>
                                 Tour
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/rooms">
+                            <a class="nav-link" href="/admin/rooms">
                                 <span data-feather="users"></span>
                                 Hotel
                             </a>
@@ -138,11 +138,11 @@
                                 <td th:text="${tour.time}"></td>
                                 <td th:text="${tour.location.name}"></td>
                                 <td>
-                                    <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}"
+                                    <a th:id="${tour.id}" th:href="@{/admin/tours/find/__${tour.id}__}"
                                        onclick="showDelete(id)"
                                        class="btn btn-danger"
                                        data-toggle="modal" data-target="#deleteTour">Delete</a>
-                                    <a th:id="${tour.id}" th:href="@{/tours/find/__${tour.id}__}"
+                                    <a th:id="${tour.id}" th:href="@{/admin/tours/find/__${tour.id}__}"
                                        onclick="ShowEditTour(id)"
                                        class="btn btn-primary" data-toggle="modal" data-target="#ShowEditTour"
                                        data-whatever="@getbootstrap">Edit</a>
