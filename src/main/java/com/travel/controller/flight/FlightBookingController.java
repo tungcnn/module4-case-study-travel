@@ -36,10 +36,15 @@ public class FlightBookingController {
         int offset = pageable.getPageNumber()*limit;
 
         ModelAndView modelAndView = new ModelAndView("/user/flight-result");
+        modelAndView.addObject("radio", radio);
+        modelAndView.addObject("fromLocation", fromLocation);
+        modelAndView.addObject("toLocation", toLocation);
+        modelAndView.addObject("departureDate", date1);
         Iterable<Flight> flights = flightService.searchFlightOnUser(fromID, toID, date1, total, limit, offset);
         modelAndView.addObject("flights", flights);
         if (radio.equals("round")) {
             Date date2 = Date.valueOf(returnDate);
+            modelAndView.addObject("returnDate", date2);
             Iterable<Flight> returnFlights = flightService.searchFlightOnUser(toID, fromID, date2, total, limit, offset);
             modelAndView.addObject("returnFlights", returnFlights);
             return modelAndView;
