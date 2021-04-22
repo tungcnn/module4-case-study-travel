@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @Service
 @RequestMapping("/admin/rooms")
-
 public class RoomController {
 
     @Autowired
@@ -58,7 +57,7 @@ public class RoomController {
 
     @GetMapping
     public ModelAndView getAllRooms(Pageable pageable) {
-        ModelAndView mav = new ModelAndView("/hotel/list");
+        ModelAndView mav = new ModelAndView("list-room");
         Page<Room> rooms = roomService.findAll(pageable);
         mav.addObject("rooms", rooms);
         return mav;

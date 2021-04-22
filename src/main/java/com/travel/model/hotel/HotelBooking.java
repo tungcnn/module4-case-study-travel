@@ -1,5 +1,6 @@
 package com.travel.model.hotel;
 
+import com.travel.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +16,10 @@ public class HotelBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String destination;
-    private Date checkIn;
-    private Date checkOut;
     private int duration;
 
+    @ManyToOne
+    private User user;
 
     @ManyToOne
     private Room room;

@@ -9,7 +9,8 @@ import javax.persistence.*;
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String address;
+    private String location;
 }
