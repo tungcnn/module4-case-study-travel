@@ -39,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().successHandler(customSuccessHandler).
         and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .and().exceptionHandling().accessDeniedPage("/accessDenied");
+        http.csrf().disable();
+        http.cors().disable();
     }
 
 }
