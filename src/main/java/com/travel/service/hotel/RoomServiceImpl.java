@@ -38,4 +38,9 @@ public class RoomServiceImpl implements IRoomService {
     public Page<Room> findAllByTypeContaining(String type, Pageable pageable) {
         return roomRepository.findAllByTypeContaining(type, pageable);
     }
+
+    @Override
+    public Iterable<Room> findAllByLocationOrName(String location_hotel, String name_hotel, int departure, int limit, int offset) {
+        return roomRepository.findAllByLocationOrName(location_hotel,name_hotel,departure,limit,offset);
+    }
 }
