@@ -1,5 +1,6 @@
 package com.travel.controller.tour;
 
+import com.travel.exception.NotFoundException;
 import com.travel.model.tour.Location;
 import com.travel.model.tour.Tour;
 import com.travel.service.tour.LocationService;
@@ -19,6 +20,11 @@ public class TourController {
     private final LocationService locationService;
 
     private final TourServiceImpl tourService;
+
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView showNotFound() {
+        return new ModelAndView("error404");
+    }
 
     @Autowired
     public TourController(LocationService locationService, TourServiceImpl tourService) {

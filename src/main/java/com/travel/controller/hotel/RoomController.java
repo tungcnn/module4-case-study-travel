@@ -1,5 +1,6 @@
 package com.travel.controller.hotel;
 
+import com.travel.exception.NotFoundException;
 import com.travel.model.hotel.Hotel;
 import com.travel.model.hotel.Room;
 import com.travel.service.hotel.IHotelService;
@@ -24,6 +25,11 @@ public class RoomController {
 
     @Autowired
     private IHotelService hotelService;
+
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView showNotFound() {
+        return new ModelAndView("error404");
+    }
 
     @ModelAttribute("hotels")
     public Page<Hotel> hotels(Pageable pageable) {

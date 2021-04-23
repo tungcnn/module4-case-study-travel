@@ -19,13 +19,15 @@ public class User {
 
     private String password;
 
+    private boolean disable = false;
+
     @NotNull
     @Size(max = 55, message = "Điền tên mày vào không thằng Tùng bắn á")
     private String name;
 
     @Email(message = "Nhập Email không thằng Tùng bắn á")
     @NotNull
-    private String Email;
+    private String email;
 
     @NotNull(message = "Cho tao số điện thoại không thằng Tùng bắn á")
     private String phoneNumber;

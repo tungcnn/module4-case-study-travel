@@ -1,5 +1,6 @@
 package com.travel.controller.flight;
 
+import com.travel.exception.NotFoundException;
 import com.travel.model.flight.Flight;
 import com.travel.model.flight.FlightBrand;
 import com.travel.model.flight.FlightLocation;
@@ -24,6 +25,10 @@ public class FlightController {
     private IFlightService flightService;
     @Autowired
     private IFlightLocationService flightLocationService;
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView showNotFound() {
+        return new ModelAndView("error404");
+    }
 
     @ModelAttribute("brands")
     public Page<FlightBrand> getAllBrand(Pageable pageable) {

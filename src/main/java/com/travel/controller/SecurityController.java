@@ -30,10 +30,6 @@ public class SecurityController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/user")
-    public String userPage() {
-        return "users/user";
-    }
 
     @GetMapping("/user/home")
     public ModelAndView homeUser() {
