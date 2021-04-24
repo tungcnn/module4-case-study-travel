@@ -82,4 +82,10 @@ public class UserController {
         userService.save(user);
         return "redirect:/user";
     }
+
+    @GetMapping("user/delete")
+    public ModelAndView deleteAccount(@RequestParam Long id){
+        userService.delete(id);
+        return new ModelAndView("redirect:/logout");
+    }
 }
