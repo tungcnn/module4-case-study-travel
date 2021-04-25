@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ITourService extends IGeneral<Tour> {
     Page<Tour> findByName(String name, Pageable page);
+
+    Page<Tour> findAllByNameByTimeByPrice(String name, String description, Double price, String time, Pageable pageable);
 }

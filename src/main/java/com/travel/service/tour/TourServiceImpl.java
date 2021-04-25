@@ -40,6 +40,11 @@ public class TourServiceImpl implements ITourService {
 
     @Override
     public Page<Tour> findByName(String name, Pageable page) {
-       return tourRepository.findByNameContaining(name, page);
+        return tourRepository.findByNameContaining(name, page);
+    }
+
+    @Override
+    public Page<Tour> findAllByNameByTimeByPrice(String name, String description, Double price, String time, Pageable pageable) {
+        return tourRepository.findAllByNameOrDescriptionOrPriceOrTime(name, description, price, time,pageable);
     }
 }
