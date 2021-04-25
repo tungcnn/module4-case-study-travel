@@ -1,10 +1,6 @@
 package com.travel.model.hotel;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +14,7 @@ public class Room {
     private String type;
     private double price;
     private int slot;
-    private boolean available;
+    private boolean available = true;
     private String detail;
     @ManyToOne
     private Hotel hotel;

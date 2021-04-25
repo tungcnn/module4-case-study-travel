@@ -1,14 +1,10 @@
 package com.travel.model.flight;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 @Table(name = "flight")
@@ -17,12 +13,20 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDateTime date;
-    private LocalDateTime startTime;
-    private LocalDateTime arriveTime;
-    private String fromLocation;
-    private String toLocation;
+    private String code;
+    private Date date;
+    private Time startTime;
+    private Time arriveTime;
+    @ManyToOne
+    private FlightLocation fromLocation;
+    @ManyToOne
+    private FlightLocation toLocation;
     private double price;
     @ManyToOne
     private FlightBrand flightBrand;
+    private int seat = 140;
+
+    public void bookSeat(int seat) {
+        this.seat -= seat;
+    }
 }

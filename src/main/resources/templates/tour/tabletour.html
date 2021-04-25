@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h2>List</h2>
+    <form th:action="@{/booking}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Time</th>
+                <th scope="col">Location</th>
+                <th scope="col">Book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="t:${tours}">
+                <tr>
+                    <td th:text="${t.getName()}"></td>
+                    <td th:text="${t.getDescription()}"></td>
+                    <td th:text="${t.getPrice()}"></td>
+                    <td th:text="${t.getTime()}"></td>
+                    <td th:text="${t.getLocation().getName()}"></td>
+                    <td>
+                        <button class="btn bg-danger">
+                            <a th:href="@{/book/__${t.getId()}__}">
+                            </a>Book</button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </form>
+    <div>
+        <a th:href="@{'/search'(name=${name},page=${tour.number - 1})}" th:if="${tour.hasPrevious()}">Previous</a>
+        <span th:text="${tour.number + 1}"></span>/<span th:text="${tour.totalPages}"></span>
+        <a th:href="@{'/search'(name=${name},description=${description},page=${tour.number + 1})}" th:if="${tour.hasNext()}">Next</a>
+    </div>
+</div>
+</body>
+</html>

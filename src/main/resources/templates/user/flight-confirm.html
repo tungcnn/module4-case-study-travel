@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="userlayout::header">
+</head>
+<body>
+<header class="top-area">
+    <div class="header-area" style="background-color: #555555">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="logo">
+                        <a href="/">
+                            Travel<span>Kalo</span>
+                        </a>
+                    </div><!-- /.logo-->
+                </div><!-- /.col-->
+                <div class="col-sm-10">
+                    <div class="main-menu">
+
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                    data-target=".navbar-collapse">
+                                <i class="fa fa-bars"></i>
+                            </button><!-- / button-->
+                        </div><!-- /.navbar-header-->
+                        <div class="collapse navbar-collapse">
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.main-menu-->
+                </div><!-- /.col-->
+            </div><!-- /.row -->
+            <div class="home-border"></div><!-- /.home-border-->
+        </div><!-- /.container-->
+    </div><!-- /.header-area -->
+
+</header>
+
+<div class="container">
+    <div class="row">
+        <h1 style="width: 100%; text-align: center; margin: 100px">Booking Confirmation</h1>
+    </div>
+
+    <div class="row">
+        <form method="post" class="text-center border border-light p-5" th:object="${customer}"
+              th:action="@{/flights/users/book}">
+            <div class="col-md-6">
+
+                <p class="h4 mb-4">Personal Info</p>
+
+                <p>Make sure the information below are correct</p>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input th:field="*{name}" type="text" id="name" class="form-control mb-4" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input th:field="*{email}" type="email" id="email" class="form-control mb-4" placeholder="E-mail">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input th:field="*{phoneNumber}" type="tel" pattern="0[1-9]{9}" id="phone"
+                           class="form-control mb-4" placeholder="0xxxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label for="idPaper">Identification</label>
+                    <input th:field="*{idPapers}" type="text" id="idPaper" class="form-control mb-4"
+                           placeholder="Identification Number">
+                </div>
+
+                <button class="btn btn-info btn-block" type="submit">Confirm Booking</button>
+
+            </div>
+            <div class="col-md-6">
+                <div th:if="${flight1}">
+                    <input hidden th:value="${flight1.id}" name="flight1">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h3 class="font-weight-bold mb-3"
+                                th:text="${flight1.fromLocation.name} + ' => ' + ${flight1.toLocation.name}"></h3>
+                            <h5 class="font-weight-bold mb-3" th:text="${flight1.date}"></h5>
+                            <h5 class="font-weight-bold mb-3" th:text="${flight1.flightBrand.name}"></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="'Depart: ' + ${flight1.startTime}"></li>
+                            <li class="list-group-item" th:text="'Arrive: ' + ${flight1.arriveTime}"></li>
+                            <li class="list-group-item" th:text="'Price: ' + ${flight1.price}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <div th:if="${flight2}">
+                    <input hidden th:value="${flight2.id}" name="flight2">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h3 class="font-weight-bold mb-3"
+                                th:text="${flight2.fromLocation.name} + ' => ' + ${flight2.toLocation.name}"></h3>
+                            <h5 class="font-weight-bold mb-3" th:text="${flight2.date}"></h5>
+                            <h5 class="font-weight-bold mb-3" th:text="${flight2.flightBrand.name}"></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="'Depart: ' + ${flight2.startTime}"></li>
+                            <li class="list-group-item" th:text="'Arrive: ' + ${flight2.arriveTime}"></li>
+                            <li class="list-group-item" th:text="'Price: ' + ${flight2.price}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <a class="btn btn-primary" href="/#travel-box">I changed my mind</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="userlayout::footer"></div>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 .gradle
 .idea
 build
-src/main/java/com/travel/config/AppConfig.java
+.DS_Store
+*.env

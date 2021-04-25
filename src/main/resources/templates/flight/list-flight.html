@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout::header">
+</head>
+<body>
+<!---------------------------------------------create modal------------------------------------------------------------------->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">NEW FLIGHT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="date">Start Date</label>
+                        <input type="date" id="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime">Start Time</label>
+                        <input type="time" id="startTime" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="arriveTime">Arrival Time</label>
+                        <input type="time" id="arriveTime" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fromLocation">From Location</label>
+                        <select id="fromLocation" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="toLocation">To Location</label>
+                        <select id="toLocation" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" id="price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="flightBrand">Flight Brands</label>
+                        <select id="flightBrand" class="form-control">
+                            <option th:each="fb:${brands}" th:value="${fb.id} + ${fb.code}"
+                                    th:text="${fb.name}"></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+                <button class="btn btn-primary" onclick="addFlight()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------------------edit modal------------------------------------------------------------------->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">EDIT FLIGHT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" id="idEdit" hidden>
+                    <div class="form-group">
+                        <label for="dateEdit">Start Date</label>
+                        <input type="date" id="dateEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="startTimeEdit">Start Time</label>
+                        <input type="time" id="startTimeEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="arriveTimeEdit">Arrival Time</label>
+                        <input type="time" id="arriveTimeEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="fromLocationEdit">From Location</label>
+                        <select id="fromLocationEdit" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="toLocationEdit">To Location</label>
+                        <select id="toLocationEdit" class="form-control">
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceEdit">Price</label>
+                        <input type="text" id="priceEdit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="flightBrandEdit">Flight Brands</label>
+                        <select id="flightBrandEdit" class="form-control">
+                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="editFlight()" data-dismiss="modal">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------------------delete confirm modal------------------------------------------------------------------->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalTitle">Are you sure you want to delete?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" id="idDel" hidden>
+                    <div class="form-group">
+                        <label for="dateDel">Start Date</label>
+                        <input type="date" id="dateDel" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="startTimeDel">Start Time</label>
+                        <input type="time" id="startTimeDel" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="arriveTimeDel">Arrival Time</label>
+                        <input type="time" id="arriveTimeDel" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromLocationDel">From Location</label>
+                        <select id="fromLocationDel" class="form-control" disabled>
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="toLocationDel">To Location</label>
+                        <select id="toLocationDel" class="form-control" disabled>
+                            <option th:each="l:${locations}" th:value="${l.id}"
+                                    th:text="${l.name} + '(' + ${l.code} + ')'"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceDel">Price</label>
+                        <input type="text" id="priceDel" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="flightBrandDel">Flight Brands</label>
+                        <select id="flightBrandDel" class="form-control" disabled>
+                            <option th:each="fb:${brands}" th:value="${fb.id}" th:text="${fb.name}"></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteFlight()">Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---------------------------------------------navbar------------------------------------------------------------------->
+<div th:insert="~{layout::navbar}"></div>
+<!-----------------------------------------------------------body------------------------------------------------------->
+<div class="container-fluid">
+    <div class="row">
+        <!-----------------------------------------------------------sidebar------------------------------------------------------->
+        <div class="col-md-2">
+            <div th:insert="~{layout::sidebar}"></div>
+        </div>
+        <!-----------------------------------------------------------main------------------------------------------------------->
+        <div class="col-md-9">
+            <div class="col-md-10 offset-1">
+                <div class="row">
+                    <h1 style="width: 100%; text-align: center;margin-bottom: 50px; margin-top: 50px">FLIGHTS
+                        MANAGEMENT</h1>
+                </div>
+                <br>
+                <div class="row">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                        Create new flight
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <input style="margin-top: 15px" type="text" class="form-control"
+                                   placeholder="Search by code"
+                                   aria-label="search" aria-describedby="button-addon" id="searchBox">
+                            <div class="input-group-append">
+                                <button style="margin-top: 15px" class="btn btn-outline-secondary" type="button"
+                                        id="button-addon"
+                                        onclick="searchFlight()">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 10px">
+                        <p style="margin-top: revert">On page <span id="currentPage">1</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="Page navigation example" style="float: right; margin-top: 15px">
+                            <ul class="pagination">
+                                <li class="page-item" onclick="previousPage()">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <th:block th:each="page:${pages}">
+                                    <li class="page-item" th:id="'page' + ${page}" onclick="toActivePage(id)">
+                                        <a href="javascript:;" class="page-link" th:text="${page} + 1"></a>
+                                    </li>
+                                </th:block>
+                                <li class="page-item" onclick="nextPage()">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Flight Code</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>Arrive Time</th>
+                            <th>From Location</th>
+                            <th>To Location</th>
+                            <th>Price</th>
+                            <th>Brand</th>
+                            <th>Seats Left</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody id="flightList">
+                        <tr th:each="f:${flights}">
+                            <td th:text="${f.id}"></td>
+                            <td th:text="${f.code}"></td>
+                            <td th:text="${f.date}"></td>
+                            <td th:text="${f.startTime}"></td>
+                            <td th:text="${f.arriveTime}"></td>
+                            <td th:text="${f.fromLocation.name}"></td>
+                            <td th:text="${f.toLocation.name}"></td>
+                            <td th:text="${f.price}"></td>
+                            <td th:text="${f.flightBrand.name}"></td>
+                            <td th:text="${f.seat}"></td>
+                            <td>
+                                <a th:id="${f.id}" th:href="@{/admin/flights/__${f.id}__}" onclick="showEditModal(id)"
+                                   class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a>
+                            </td>
+                            <td>
+                                <a th:id="${f.id}" th:href="@{/admin/flights/__${f.id}__}" onclick="showDeleteModal(id)"
+                                   data-toggle="modal" data-target="#deleteModal"
+                                   class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../static/flight/adminFlight.js"></script>
+</html>
