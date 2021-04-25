@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="/">
                             Travel<span>Kalo</span>
                         </a>
                     </div><!-- /.logo-->
@@ -37,38 +37,107 @@
 </header>
 
 <div class="container">
-    <div class="row">
-        <p style="width: 100%; text-align: center">Results</p>
+    <div class="row" style="margin-top: 80px">
+        <p style="width: 100%; text-align: center; margin-top: 50px; margin-bottom: 50px; font-size: 40px">Results</p>
     </div>
+    <!--    departure-->
+    <div class="row" style="margin-top: 50px; margin-bottom: 50px">
+        <p style="width: 100%; text-align: left" th:text="${fromLocation} + ' to ' + ${toLocation}"></p>
+        <p style="width: 100%; text-align: left" th:text="'On ' + ${departureDate}"></p>
+    </div>
+
     <div class="row">
+        <div class="col-md-12">
+            <div th:if="${found1}">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Flight Brand</th>
+                        <th>Travel Time</th>
+                        <th>Available Seats</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="f:${flights}">
+                        <td th:text="${f.flightBrand.name}"></td>
+                        <td th:text="${f.startTime} + ' -> ' + ${f.arriveTime}"></td>
+                        <td th:text="${f.seat}"></td>
+                        <td th:text="${f.price} + ' vnd'"></td>
+                        <td>
+                            <button th:id="${f.id}" class="btn btn-primary" onclick="selectFlight(id)">Choose</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div th:unless="${found1}">
+                <h3>There are no flights on this date</h3>
+            </div>
+        </div>
+    </div>
+    <!--    arrival-->
+    <div class="row" style="margin-top: 80px">
 
     </div>
-    <div class="row" style="margin-top: 80px">
-        <div class="col-md-12">
-            <table class="table table-hover table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Flight Brand</th>
-                    <th>Route</th>
-                    <th>Travel Time</th>
-                    <th>Available Seats</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tr th:each="f:${flights}">
-                    <td th:text="${f.flightBrand.name}" col></td>
-                    <td th:text="${f.fromLocation.name} + ' -> ' + ${f.toLocation.name}"></td>
-                    <td th:text="${f.startTime} + ' -> ' + ${f.arriveTime}"></td>
-                    <td th:text="${f.seat}"></td>
-                    <td th:text="${f.price} + ' vnd'"></td>
-                    <td></td>
-                </tr>
-            </table>
+    <div class="row">
+        <div th:if="${returnDate}">
+            <hr>
+            <p style="width: 100%; text-align: center; margin-top: 50px; margin-bottom: 50px; font-size: 40px">Results</p>
+            <div class="row" style="; margin-top: 50px; margin-bottom: 50px">
+                <p style="width: 100%; text-align: left" th:text="${toLocation} + ' to ' + ${fromLocation}"></p>
+                <p style="width: 100%; text-align: left" th:text="'On ' + ${returnDate}"></p>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div th:if="${found}">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th>Flight Brand</th>
+                                <th>Travel Time</th>
+                                <th>Available Seats</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tr th:each="f:${returnFlights}">
+                                <td th:text="${f.flightBrand.name}"></td>
+                                <td th:text="${f.startTime} + ' -> ' + ${f.arriveTime}"></td>
+                                <td th:text="${f.seat}"></td>
+                                <td th:text="${f.price} + ' vnd'"></td>
+                                <td>
+                                    <button th:id="${f.id}" class="btn btn-primary" onclick="selectFlight2(id)">Choose
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div th:unless="${found}">
+                        <h3>There are no flights on this date</h3>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    <br>
+    <br>
+    <div class="row" id="firstFlight"></div>
+    <div class="row" id="secondFlight"></div>
+    <br>
+    <div class="row">
+        <button class="btn btn-primary" onclick="handleBooking()" style="float: right">Next</button>
     </div>
 </div>
 
 <div th:replace="userlayout::footer"></div>
 </body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="../../static/js/flightresult.js"></script>
+<style>
+    p {
+        font-size: larger;
+        font-weight: bold;
+    }
+</style>
 </html>
