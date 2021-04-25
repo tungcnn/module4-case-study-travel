@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h1>Đây nà ADMIN</h1>
+<h1>List User</h1>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Identity Papers</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="user: ${users}">
+        <tr>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.idPapers}"></td>
+            <td><a onclick="return confirm('Do you wanna delete your account ?')" th:href="@{/user/delete(id=${user.id})}" class="profile-edit-btn">Delete Account</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/users/admin'(page=${users.number - 1})}" th:if="${users.hasPrevious()}">Previous</a>
+    <span th:text="${users.number + 1}"></span>/<span th:text="${users.totalPages}"></span>
+    <a th:href="@{'/users/admin'(page=${users.number + 1})}" th:if="${users.hasNext()}">Next</a>
+</div>
 </body>
 </html>

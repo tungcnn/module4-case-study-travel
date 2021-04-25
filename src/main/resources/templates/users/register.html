@@ -37,7 +37,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
-                    <input class="form-control" type="text" placeholder="Password" th:field="*{password}">
+                    <input class="form-control" type="password" placeholder="Password" th:field="*{password}">
                     <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
                 </div>
 

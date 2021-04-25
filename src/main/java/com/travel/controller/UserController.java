@@ -6,6 +6,8 @@ import com.travel.service.appuser.AppUserService;
 import com.travel.service.role.RoleService;
 import com.travel.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -89,4 +91,6 @@ public class UserController {
         userService.delete(id);
         return new ModelAndView("redirect:/logout");
     }
+
+
 }
