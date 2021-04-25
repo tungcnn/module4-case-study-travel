@@ -2,6 +2,7 @@ package com.travel.controller;
 
 import com.travel.model.Role;
 import com.travel.model.User;
+import com.travel.service.appuser.AppUserService;
 import com.travel.service.role.RoleService;
 import com.travel.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private AppUserService appUserService;
+
     @Autowired
     private UserService userService;
 
@@ -25,6 +29,16 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @ModelAttribute("currentUser")
+    public User userProfile(){
+        return appUserService.getCurrentUser();
+    }
+
+    @GetMapping("/user")
+    public String userPage() {
+        return "users/user";
+    }
 
     @GetMapping("/register")
     public ModelAndView register(){
@@ -54,5 +68,24 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return modelAndView;
+    }
+
+    @GetMapping("/user/edit")
+    public ModelAndView showEdit(){
+        ModelAndView modelAndView = new ModelAndView("users/edit");
+        modelAndView.addObject("currentUser",this.userProfile());
+        return modelAndView;
+    }
+
+    @PostMapping("/user/edit")
+    public String edit(@ModelAttribute User user) throws IOException{
+        userService.save(user);
+        return "redirect:/user";
+    }
+
+    @GetMapping("user/delete")
+    public ModelAndView deleteAccount(@RequestParam Long id){
+        userService.delete(id);
+        return new ModelAndView("redirect:/logout");
     }
 }

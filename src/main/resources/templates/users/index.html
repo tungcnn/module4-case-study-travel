@@ -34,15 +34,15 @@
                         </div><!-- /.navbar-header-->
                         <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="smooth-menu"><a href="#home">home</a></li>
+                                <li class="smooth-menu"><a href="#home">Home</a></li>
+                                <li class="smooth-menu"><a href="#travel-box">Booking</a></li>
                                 <li class="smooth-menu"><a href="#gallery">Destination</a></li>
                                 <li class="smooth-menu"><a href="#pack">Packages </a></li>
                                 <li class="smooth-menu"><a href="#spo">Special Offers</a></li>
-                                <li class="smooth-menu"><a href="#blog">blog</a></li>
+                                <li class="smooth-menu"><a href="#blog">Blog</a></li>
                                 <li class="smooth-menu"><a href="#subs">subscription</a></li>
                                 <li>
-                                    <button class="book-btn">book now
-                                    </button>
+                                    <a class="book-btn" th:href="@{/user}">Profile</a>
                                 </li><!--/.project-btn-->
                             </ul>
                         </div><!-- /.navbar-collapse -->
@@ -123,6 +123,7 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content">
+
                             <div role="tabpanel" class="tab-pane active fade in" id="tours">
                                 <div class="tab-para">
                                     <form th:action="@{/search}" method="GET">
@@ -195,7 +196,6 @@
                                 </div><!--/.tab-para-->
 
                             </div><!--/.tabpannel-->
-
 
                             <div role="tabpanel" class="tab-pane fade in" id="hotels">
                                 <div class="tab-para">

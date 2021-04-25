@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout::header">
+</head>
+<body>
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://asianwiki.com/images/1/10/High_%26_Low_The_Movie-Goki_Maeda.jpg" alt=""/>
+                    <!--                    <div class="file btn btn-lg btn-primary">-->
+                    <!--                        Change Photo-->
+                    <!--                        <input type="file" name="file"/>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+            <!--            -----------------------------------------                           -->
+            <div class="col-md-6">
+                <div class="profile-head">
+
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">Edit Profile</a>
+                        </li>
+                        <!--<li class="nav-item">-->
+                        <!--    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a th:href="@{/user}" class="profile-edit-btn">Profile</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <p>Booking</p>
+                    <a th:href="@{/#booking}">Booking Now</a><br/>
+                    <!--                    <p>SKILLS</p>-->
+                    <!--                    <a href="">Web Designer</a><br/>-->
+                    <!--                    <a href="">Web Developer</a><br/>-->
+                    <!--                    <a href="">WordPress</a><br/>-->
+                    <!--                    <a href="">WooCommerce</a><br/>-->
+                    <!--                    <a href="">PHP, .Net</a><br/>-->
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <form th:object="${currentUser}" method="post" th:action="@{/user/edit}">
+                            <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{password}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Username</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" th:field="*{username}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" th:field="*{name}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" th:field="*{email}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Phone Number</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" th:field="*{phoneNumber}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Profession</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" th:field="*{idPapers}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary" th>Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../../static/css/profileCSS.css">
+</html>

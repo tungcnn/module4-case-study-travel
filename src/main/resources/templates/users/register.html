@@ -10,7 +10,7 @@
     <p th:text="${message}"></p>
 </th:block>
 
-<form th:action="@{/user/addUser}" method="post" th:object="${user}">
+<form th:action="@{/addUser}" method="post" th:object="${user}">
     <input type="hidden" th:field="*{id}">
     <div>
         <label>Username</label>
