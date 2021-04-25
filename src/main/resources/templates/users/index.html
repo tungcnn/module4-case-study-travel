@@ -123,10 +123,9 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <form th:action="@{/search}" method="GET">
-                                <div role="tabpanel" class="tab-pane active fade in" id="tours">
-                                    <div class="tab-para">
-
+                            <div role="tabpanel" class="tab-pane active fade in" id="tours">
+                                <div class="tab-para">
+                                    <form th:action="@{/search}" method="GET">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-12">
                                                 <div class="single-tab-select-box">
@@ -139,7 +138,8 @@
                                                     </div>
                                                     <h2>Description</h2>
                                                     <div class="travel-select-icon">
-                                                        <select id="description" class="form-control" name="description">
+                                                        <select id="description" class="form-control"
+                                                                name="description">
                                                             <option th:each="t:${tour}" th:value="${t.description}"
                                                                     th:text="${t.description}"></option>
                                                         </select>
@@ -152,13 +152,15 @@
                                                     <h2>Price</h2>
                                                     <div class="travel-select-icon">
                                                         <select id="price" class="form-control" name="price">
-                                                            <option th:each="t:${tour}" th:value="${t.price}" th:text="${t.price}"></option>
+                                                            <option th:each="t:${tour}" th:value="${t.price}"
+                                                                    th:text="${t.price}"></option>
                                                         </select>
                                                     </div>
                                                     <h2>Time</h2>
                                                     <div class="travel-select-icon">
                                                         <select id="time" class="form-control" name="time">
-                                                            <option th:each="t:${tour}" th:value="${t.time}" th:text="${t.time}"></option>
+                                                            <option th:each="t:${tour}" th:value="${t.time}"
+                                                                    th:text="${t.time}"></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -189,11 +191,10 @@
                                             </div><!--/.col-->
 
                                         </div><!--/.row-->
+                                    </form>
+                                </div><!--/.tab-para-->
 
-                                    </div><!--/.tab-para-->
-
-                                </div><!--/.tabpannel-->
-                            </form>
+                            </div><!--/.tabpannel-->
 
 
                             <div role="tabpanel" class="tab-pane fade in" id="hotels">
@@ -319,7 +320,8 @@
                                     <form action="/flights/users/search">
                                         <div class="trip-circle">
                                             <div class="single-trip-circle">
-                                                <input type="radio" id="radio01" name="radio" value="round" checked onclick="toggleReturnDateInputOn()"/>
+                                                <input type="radio" id="radio01" name="radio" value="round" checked
+                                                       onclick="toggleReturnDateInputOn()"/>
                                                 <label for="radio01">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
@@ -327,7 +329,8 @@
                                                 </label>
                                             </div><!--/.single-trip-circle-->
                                             <div class="single-trip-circle">
-                                                <input type="radio" id="radio02" name="radio" value="one" onclick="toggleReturnDateInputOn()"/>
+                                                <input type="radio" id="radio02" name="radio" value="one"
+                                                       onclick="toggleReturnDateInputOn()"/>
                                                 <label for="radio02">
   														<span class="round-boarder">
   															<span class="round-boarder1"></span>
@@ -343,11 +346,12 @@
 
                                                     <div class="travel-select-icon">
                                                         <select class="form-control" name="fromLocation">
-                                                        <option value="default">enter your location</option>
-                                                        <!-- /.option-->
-                                                        <option th:each="fl: ${flightlocations}"
-                                                                th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.id}"></option>
-                                                    </select><!-- /.select-->
+                                                            <option value="default">enter your location</option>
+                                                            <!-- /.option-->
+                                                            <option th:each="fl: ${flightlocations}"
+                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}"
+                                                                    th:value="${fl.id}"></option>
+                                                        </select><!-- /.select-->
                                                     </div><!-- /.travel-select-icon -->
                                                 </div><!--/.single-tab-select-box-->
                                             </div><!--/.from location-->
@@ -417,10 +421,12 @@
                                                     <div class="travel-select-icon">
                                                         <select class="form-control" name="toLocation">
 
-                                                            <option value="default">enter your destination location</option>
+                                                            <option value="default">enter your destination location
+                                                            </option>
                                                             <!-- /.option-->
                                                             <option th:each="fl: ${flightlocations}"
-                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}" th:value="${fl.id}"></option>
+                                                                    th:text="'(' + ${fl.code} + ')' + ${fl.name}"
+                                                                    th:value="${fl.id}"></option>
 
                                                         </select><!-- /.select-->
                                                     </div><!-- /.travel-select-icon -->
