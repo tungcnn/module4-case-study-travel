@@ -4,42 +4,86 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="background: url(https://cdn.vietnambiz.vn/2019/9/26/traveloka-15695017782441901909838.gif) no-repeat; background-size: 100%">
 
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
 
-<form th:action="@{/addUser}" method="post" th:object="${user}">
-    <input type="hidden" th:field="*{id}">
-    <div>
-        <label>Username</label>
-        <input type="text" th:field="*{username}">
-        <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
-    </div>
-    <div>
-        <label>Password</label>
-        <input type="text" th:field="*{password}">
-        <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
-    </div>
-    <div>
-        <label>Name</label>
-        <input type="text" th:field="*{name}">
-    </div>
-    <div>
-        <label>Email</label>
-        <input type="text" th:field="*{email}">
-    </div>
-    <div>
-        <label>Phone Number</label>
-        <input type="text" th:field="*{phoneNumber}">
-    </div>
-    <div>
-        <label>Identity Papers</label>
-        <input type="text" th:field="*{idPapers}">
-    </div>
+<div class="container" style="opacity: 0.9">
 
-    <input type="submit" value="register">
-</form>
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h3 class="card-title mt-3 text-center">Create Account</h3>
+            <p>
+                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+                <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via
+                    facebook</a>
+            </p>
+            <p class="divider-text">
+                <span class="bg-light">OR</span>
+            </p>
+            <form th:action="@{/addUser}" method="post" th:object="${user}">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input class="form-control" type="text" placeholder="Username" th:field="*{username}">
+                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input class="form-control" type="text" placeholder="Password" th:field="*{password}">
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Full Name" type="text" th:field="*{name}">
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Email address" type="email" th:field="*{email}">
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <!--                    <select class="custom-select" style="max-width: 120px;">-->
+                    <!--                        <option selected="">+84</option>-->
+                    <!--                        <option value="1">+81</option>-->
+                    <!--                    </select>-->
+                    <input class="form-control" placeholder="Phone Number" type="text" th:field="*{phoneNumber}">
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Identity Papers" type="text" th:field="*{idPapers}">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" value="register"> Create Account</button>
+                </div>
+                <p class="text-center">Have an account? <a href="/login">Log In</a></p>
+            </form>
+        </article>
+    </div>
+</div>
 </body>
-</html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<link rel="stylesheet" href="../../static/css/registerCSS.css"></html>

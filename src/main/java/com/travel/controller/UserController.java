@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public ModelAndView register(@ModelAttribute("user") User user, BindingResult bindingResult){
+    public ModelAndView register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
         if (bindingResult.hasFieldErrors()){
             ModelAndView modelAndView = new ModelAndView("users/register");
             return modelAndView;
