@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: header">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <table class="table table-hover table-dark">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Hotel</th>
+                <th>Location</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Slot</th>
+                <th>Details</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="rooms">
+            <th:block th:each="room : ${rooms}">
+                <tr>
+                    <td></td>
+                    <td th:text="${room.hotel.name}"></td>
+                    <td th:text="${room.hotel.location}"></td>
+                    <td th:text="${room.name}"></td>
+                    <td th:text="${room.type}"></td>
+                    <td th:text="${room.price}"></td>
+                    <td th:text="${room.slot}"></td>
+                    <td th:text="${room.detail}"></td>
+                    <td>
+                        <a class="btn btn-primary editRoom" href="javascript:;" th:id="${room.id}"
+                           onclick="showFormEdit(id)"
+                           data-toggle="modal" data-target="#editModal">Booking</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+<!--    <div>-->
+<!--        <a th:href="@{'/users/rooms'(page=${rooms.number - 1})}" th:if="${rooms.hasPrevious()}">Previous</a>-->
+<!--        <span th:text="${rooms.number + 1}"></span>/<span th:text="${rooms.totalPages}"></span>-->
+<!--        <a th:href="@{'/users/rooms'(page=${rooms.number + 1})}" th:if="${rooms.hasNext()}">Next</a>-->
+<!--    </div>-->
+</div>
+</body>
+</html>

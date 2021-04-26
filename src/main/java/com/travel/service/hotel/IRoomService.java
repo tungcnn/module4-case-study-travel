@@ -7,4 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IRoomService extends IGeneral<Room> {
     Page<Room> findAllByTypeContaining(String type, Pageable pageable);
+
+    Iterable<Room> findAllByLocationOrName (String location_hotel, String name_hotel,int departure, int limit, int offset);
+
 }
