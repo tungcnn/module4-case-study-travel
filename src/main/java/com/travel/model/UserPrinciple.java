@@ -14,6 +14,8 @@ public class UserPrinciple implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> roles;
 
+    public UserPrinciple(){};
+
     public UserPrinciple(Long id, String username, String password, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.username = username;
