@@ -1,5 +1,6 @@
 package com.travel.controller;
 
+import com.travel.model.Customer;
 import com.travel.model.flight.FlightLocation;
 import com.travel.model.tour.BookTour;
 import com.travel.model.tour.Location;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -56,12 +54,16 @@ public class HomeController {
         return model;
     }
 
-    @GetMapping("bookking")
-    public ModelAndView showbook() {
-        return new ModelAndView("tour/booking");
+    @GetMapping("booking/{id}")
+    public ModelAndView showbook(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("tour/booking");
+        Tour tour = tourService.findById(id);
+        modelAndView.addObject("customer", new Customer());
+        modelAndView.addObject("tour", tour);
+        return modelAndView;
     }
 
-    @PostMapping("bookking")
+    @PostMapping("booking")
     public ModelAndView createBook(@ModelAttribute BookTour bookTour) {
         bookTourService.save(bookTour);
         ModelAndView model = new ModelAndView("tour/booking");
